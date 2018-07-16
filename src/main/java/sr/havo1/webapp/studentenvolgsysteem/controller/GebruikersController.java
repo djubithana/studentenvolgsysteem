@@ -57,4 +57,5 @@ public class GebruikersController {
         return gebruikersDAO.getGebruiker(gebruiker.getGebruiker_id());
     }
 
+
 }

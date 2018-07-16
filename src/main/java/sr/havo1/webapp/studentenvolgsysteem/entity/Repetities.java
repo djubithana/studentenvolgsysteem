@@ -1,5 +1,7 @@
 package sr.havo1.webapp.studentenvolgsysteem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -29,7 +31,7 @@ public class Repetities implements Serializable{
     public void setRepetitie_id(Long repetitie_id) {
         this.repetitie_id = repetitie_id;
     }
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "kwartaal_id")
     public Kwartalen getKwartaal_id() {
@@ -39,7 +41,7 @@ public class Repetities implements Serializable{
     public void setKwartaal_id(Kwartalen kwartaal_id) {
         this.kwartaal_id = kwartaal_id;
     }
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "docent_vak_id")
     public DocentenVakken getDocent_vak_id() {
@@ -49,7 +51,7 @@ public class Repetities implements Serializable{
     public void setDocent_vak_id(DocentenVakken docent_vak_id) {
         this.docent_vak_id = docent_vak_id;
     }
-
+    @JsonIgnore
     @OneToMany(mappedBy = "repetitie_id", fetch = FetchType.LAZY)
     public List<Cijfers> getCijfer() {
         return cijfer;

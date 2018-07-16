@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 
-@Path("/klassen")
+@Path("/repetitie")
 public class RepetitieController {
 
     private RepetitieDOA repetitieDOA = new RepetitieDOA();
