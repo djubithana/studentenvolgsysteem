@@ -1,5 +1,7 @@
 package sr.havo1.webapp.studentenvolgsysteem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -222,6 +224,7 @@ public class Studenten implements Serializable {
         this.relatie_id = relatie_id;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student_id", fetch = FetchType.LAZY)
     public List<KlassenStudenten> getKlasStudent() {
         return klasStudent;
@@ -231,6 +234,7 @@ public class Studenten implements Serializable {
         this.klasStudent = klasStudent;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "student_id", fetch = FetchType.LAZY)
     public List<Keuzevakken> getKeuzevak() {
         return keuzevak;

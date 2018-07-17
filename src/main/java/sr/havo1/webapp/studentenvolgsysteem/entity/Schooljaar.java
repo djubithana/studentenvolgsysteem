@@ -1,5 +1,7 @@
 package sr.havo1.webapp.studentenvolgsysteem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Year;
@@ -49,6 +51,7 @@ public class Schooljaar implements Serializable{
         this.status = status;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "schooljaar_id", fetch = FetchType.LAZY)
     public List<Klassen> getKlas() {
         return klas;

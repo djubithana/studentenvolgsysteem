@@ -1,5 +1,8 @@
 package sr.havo1.webapp.studentenvolgsysteem.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,6 +52,7 @@ public class Klassen implements Serializable{
         this.schooljaar_id = schooljaar_id;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "klas_id", fetch = FetchType.LAZY)
     public List<KlassenStudenten> getKlasStudent() {
         return klasStudent;

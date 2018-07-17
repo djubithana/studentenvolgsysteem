@@ -14,14 +14,14 @@ public class App {
     public static void main(String[] args) {
 
         /*Schooljaar s = new Schooljaar();
-        s.setSchooljaar(2019);
+        s.setSchooljaar(2020);
         s.setStatus(false);
 
         SchooljaarDAO sdao = new SchooljaarDAO();
         sdao.addSchooljaar(s);*/
 
         /*Vakken vak = new Vakken();
-        vak.setVaknaam("Engels");
+        vak.setVaknaam("Nederlands");
         vak.setAfkorting("N/A");
 
         VakkenDAO vakkenDAO = new VakkenDAO();
@@ -29,7 +29,7 @@ public class App {
 
         /*RechtenDAO rechtenDAO = new RechtenDAO();
         Rechten rechtUpdate = rechtenDAO.getRecht(2L);
-        rechtUpdate.setRechtnaam("Gebruikers beheren");
+        rechtUpdate.setRechtnaam("Rollen beheren");
         rechtenDAO.updateRecht(rechtUpdate);*/
 
         /*RollenDAO rollenDAO = new RollenDAO();
@@ -38,15 +38,15 @@ public class App {
         rollenDAO.updateRol(rolUpdate);*/
 
         /*RollenDAO rollenDAO = new RollenDAO();
-        Rollen rol = rollenDAO.getRol(5L);
+        Rollen rol = rollenDAO.getRol(3L);
         rollenDAO.deleteRol(rol);*/
 
         /*RechtenDAO rechtenDAO = new RechtenDAO();
         RollenDAO rollenDAO = new RollenDAO();
 
         RollenRechten rr = new RollenRechten();
-        rr.setRol_id(rollenDAO.getRol(5L));
-        rr.setRecht_id(rechtenDAO.getRecht(6L));
+        rr.setRol_id(rollenDAO.getRol(4L));
+        rr.setRecht_id(rechtenDAO.getRecht(2L));
 
         RollenRechtenDAO rrdao = new RollenRechtenDAO();
         rrdao.addRolRecht(rr);*/
@@ -66,24 +66,24 @@ public class App {
         dd.addDocent(d);*/
 
         /*DocentenDAO docentenDAO = new DocentenDAO();
-        Docenten docentUpdate = docentenDAO.getDocent(3L);
-        docentUpdate.setVoornaam("Chanise");
+        Docenten docentUpdate = docentenDAO.getDocent(4L);
+        docentUpdate.setVoornaam("Vally");
         docentenDAO.updateDocent(docentUpdate);*/
 
         /*DocentenDAO docentenDAO = new DocentenDAO();
-        Docenten docent = docentenDAO.getDocent(1L);
+        Docenten docent = docentenDAO.getDocent(4L);
         docentenDAO.deleteDocent(docent);*/
 
         /*RollenRechtenDAO rrdao = new RollenRechtenDAO();
 
         Gebruikers d = new Gebruikers();
-        d.setVoornaam("Valerie");
+        d.setVoornaam("Chanise");
         d.setAchternaam("Martodikromo");
-        d.setEmail("vally@live.com");
+        d.setEmail("chan@live.com");
         d.setWachtwoord("password");
         d.setRegistratiedatum(new java.sql.Timestamp(Calendar.getInstance().getTime().getTime()));
         d.setLaatst_ingelogd_op(new java.sql.Timestamp(Calendar.getInstance().getTime().getTime()));
-        d.setRol_recht_id(rrdao.getRolRecht(1L));
+        d.setRol_recht_id(rrdao.getRolRecht(3L));
 
         GebruikersDAO dd = new GebruikersDAO();
         dd.addGebruiker(d);*/

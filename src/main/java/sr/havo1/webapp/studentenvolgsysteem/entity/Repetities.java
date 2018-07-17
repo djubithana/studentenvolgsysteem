@@ -1,5 +1,7 @@
 package sr.havo1.webapp.studentenvolgsysteem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ public class Repetities implements Serializable{
         this.docent_vak_id = docent_vak_id;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "repetitie_id", fetch = FetchType.LAZY)
     public List<Cijfers> getCijfer() {
         return cijfer;

@@ -1,5 +1,7 @@
 package sr.havo1.webapp.studentenvolgsysteem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ public class Kwartalen implements Serializable{
         this.kwartaalnaam = kwartaalnaam;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "kwartaal_id", fetch = FetchType.LAZY)
     public List<Repetities> getRepetitie() {
         return repetitie;
