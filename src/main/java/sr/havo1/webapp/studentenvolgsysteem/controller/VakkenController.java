@@ -53,8 +53,10 @@ public class VakkenController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Vakken getVak(Vakken vak) {
-        return vakkenDAO.getVak(vak.getVak_id());
+    public Vakken getVak(long vak) {
+        return vakkenDAO.getVak(vak);
     }
+
+
 
 }

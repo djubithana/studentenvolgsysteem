@@ -67,3 +67,7 @@ margin-bottom:20px;}
     background: #e1e4e6;
     color: #fdfdfd;
     border-radius: 40px;}
+    #error_message{color: red;
+        padding: 12px;
+        text-align: center;
+        font-size: 12px;}

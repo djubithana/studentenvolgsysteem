@@ -1,5 +1,6 @@
 package sr.havo1.webapp.studentenvolgsysteem.controller;
 
+import org.glassfish.jersey.client.ClientResponse;
 import sr.havo1.webapp.studentenvolgsysteem.dao.GebruikersDAO;
 import sr.havo1.webapp.studentenvolgsysteem.entity.Gebruikers;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class GebruikersController {
 
     private GebruikersDAO gebruikersDAO = new GebruikersDAO();
+
 
     @Path("/list")
     @GET
@@ -55,6 +57,14 @@ public class GebruikersController {
     @Produces(MediaType.APPLICATION_JSON)
     public Gebruikers getGebruiker(Gebruikers gebruiker) {
         return gebruikersDAO.getGebruiker(gebruiker.getGebruiker_id());
+    }
+
+    @POST
+    @Path("/checkLogin")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.TEXT_PLAIN)
+    public Boolean checkLogin(@QueryParam("email") String email,@QueryParam("wachtwoord") String wachtwoord){
+        return gebruikersDAO.checkLoginCredentials(email,wachtwoord);
     }
 
 }

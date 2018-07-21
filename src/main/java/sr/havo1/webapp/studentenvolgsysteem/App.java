@@ -13,6 +13,16 @@ public class App {
 
     public static void main(String[] args) {
 
+        GebruikersDAO gebruikersDAO = new GebruikersDAO();
+
+        Boolean resultaat = gebruikersDAO.checkLoginCredentials("dwightjubi@gmail.com","1456");
+
+        if(resultaat){
+            System.out.println("ingelogt");
+        }
+        else{
+            System.out.println("Verkeerde login gegevens");
+        }
         /*Schooljaar s = new Schooljaar();
         s.setSchooljaar(2020);
         s.setStatus(false);
