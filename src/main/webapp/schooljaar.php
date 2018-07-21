@@ -53,7 +53,6 @@
                             <input type="password" class="form-control" id="pwd" placeholder="Jubithana" name="pwd">
                         </div>
                     </div>
-
                 </form>
             </div>
             <div class="modal-footer">
@@ -66,4 +65,5 @@
 </div>
 
 <?php  include'inc/bottom.php';?>
+
 

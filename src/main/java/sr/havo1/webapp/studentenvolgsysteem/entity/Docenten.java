@@ -22,10 +22,13 @@ public class Docenten implements Serializable{
     private String email;
     private int telefoon;
     private int mobiel;
+    private int gender;
 
-/*
-    private List<Gebruikers> gebruiker = new ArrayList<Gebruikers>();
-*/
+
+
+    /*
+        private List<Gebruikers> gebruiker = new ArrayList<Gebruikers>();
+    */
     private List<DocentenVakken> docentVak = new ArrayList<DocentenVakken>();
 
     @Id
@@ -84,6 +87,9 @@ public class Docenten implements Serializable{
         this.mobiel = mobiel;
     }
 
+    public int getGender() { return gender; }
+
+    public void setGender(int gender) { this.gender = gender; }
     /*@OneToMany(mappedBy = "docent_id", fetch = FetchType.LAZY)
     public List<Gebruikers> getGebruiker() {
         return gebruiker;
