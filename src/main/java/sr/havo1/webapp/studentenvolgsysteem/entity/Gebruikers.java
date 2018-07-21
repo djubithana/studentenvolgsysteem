@@ -1,5 +1,7 @@
 package sr.havo1.webapp.studentenvolgsysteem.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -89,7 +91,7 @@ public class Gebruikers implements Serializable{
     public void setLaatst_ingelogd_op(Timestamp laatst_ingelogd_op) {
         this.laatst_ingelogd_op = laatst_ingelogd_op;
     }
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "rol_recht_id")
     public RollenRechten getRol_recht_id() {

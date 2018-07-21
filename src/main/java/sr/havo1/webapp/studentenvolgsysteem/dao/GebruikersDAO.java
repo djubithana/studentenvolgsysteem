@@ -1,5 +1,6 @@
 package sr.havo1.webapp.studentenvolgsysteem.dao;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import sr.havo1.webapp.studentenvolgsysteem.entity.Gebruikers;
 
 import javax.persistence.EntityManager;
@@ -100,6 +101,38 @@ public class GebruikersDAO {
             manager.close();
         }
         return gebruiker;
+    }
+    public Boolean checkLoginCredentials(String emailInput, String wachtwoordInput) {
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+        Gebruikers gebruiker = new Gebruikers();
+        Boolean resultaat = null;
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+            gebruiker = manager.createQuery("SELECT t FROM Gebruikers t WHERE t.email = :emailCheck", Gebruikers.class)
+                    .setParameter("emailCheck",emailInput)
+                    .getSingleResult();
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            manager.close();
+        }
+        String emailCheck = gebruiker.getEmail();
+        String wachtwoordCheck = gebruiker.getWachtwoord();
+
+        if (emailCheck == null){
+        return resultaat = false;
+        }
+            if(emailCheck.equals(emailInput) && wachtwoordCheck.equals(wachtwoordInput)){
+                return true;
+            }else{
+            return false;
+            }
     }
 
     public boolean updateGebruiker(Gebruikers gebruiker) {
