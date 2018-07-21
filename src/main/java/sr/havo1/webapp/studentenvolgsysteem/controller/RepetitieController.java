@@ -1,8 +1,6 @@
 package sr.havo1.webapp.studentenvolgsysteem.controller;
 
-import sr.havo1.webapp.studentenvolgsysteem.dao.KlassenDOA;
 import sr.havo1.webapp.studentenvolgsysteem.dao.RepetitieDOA;
-import sr.havo1.webapp.studentenvolgsysteem.entity.Klassen;
 import sr.havo1.webapp.studentenvolgsysteem.entity.Repetities;
 
 import javax.ws.rs.*;

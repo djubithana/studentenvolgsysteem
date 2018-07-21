@@ -15,7 +15,7 @@ import java.util.List;
 public class Keuzevakken implements Serializable{
 
     private int keuzevak_id;
-    private Year schooljaar;
+    private int schooljaar;
     private Vakken vak_id;
     private Studenten student_id;
 
@@ -31,11 +31,11 @@ public class Keuzevakken implements Serializable{
     }
 
     @Column(name = "schooljaar", nullable = false)
-    public Year getSchooljaar() {
+    public int getSchooljaar() {
         return schooljaar;
     }
 
-    public void setSchooljaar(Year schooljaar) {
+    public void setSchooljaar(int schooljaar) {
         this.schooljaar = schooljaar;
     }
 

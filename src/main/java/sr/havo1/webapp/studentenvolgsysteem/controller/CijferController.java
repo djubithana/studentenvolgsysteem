@@ -1,9 +1,7 @@
 package sr.havo1.webapp.studentenvolgsysteem.controller;
 
 import sr.havo1.webapp.studentenvolgsysteem.dao.CijferDOA;
-import sr.havo1.webapp.studentenvolgsysteem.dao.KlassenDOA;
 import sr.havo1.webapp.studentenvolgsysteem.entity.Cijfers;
-import sr.havo1.webapp.studentenvolgsysteem.entity.Klassen;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
