@@ -32,6 +32,7 @@ public class StudentenDAO {
             newStudent.setVoornaam(student.getVoornaam());
             newStudent.setAchternaam(student.getAchternaam());
             newStudent.setGeboortedatum(student.getGeboortedatum());
+            newStudent.setGeslacht(student.getGeslacht());
             newStudent.setGeboorteplaats(student.getGeboorteplaats());
             newStudent.setDistrict(student.getDistrict());
             newStudent.setAdres(student.getAdres());
