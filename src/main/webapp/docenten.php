@@ -186,7 +186,6 @@
     <script>
         function docentOphalen(docent_id) {
 
-
             let dataString = {
                 "docent_id": docent_id,
             }
@@ -196,8 +195,6 @@
             xhttp.onreadystatechange = function () {
                 if (xhttp.readyState>3 && xhttp.status==200) {
                     let docentGevonden = JSON.parse(this.responseText);
-
-
                     document.getElementById("docent_id_form").value = docentGevonden.docent_id;
                     document.getElementById("deze_docent_verw").value = docentGevonden.docent_id;
                     document.getElementById("voornaamDocent").value = docentGevonden.voornaam;
@@ -208,13 +205,13 @@
                     document.getElementById("telefoonDocent").value = docentGevonden.telefoon;
                     document.getElementById("mobielDocent").value = docentGevonden.mobiel;
                     document.getElementById("genderDocent").value = docentGevonden.gender;
-
                 }
             };
             xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/docenten/getDocent", true);
             xhttp.setRequestHeader("Content-Type", "application/json");
             xhttp.send(json);
         }
+
         function docentVerwijderen(docent_id) {
 
             let dataString = {
@@ -225,7 +222,6 @@
             let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (xhttp.readyState>3 && xhttp.status==200) {
-                    let docentGevonden = JSON.parse(this.responseText);
                     docentenOphalen();
                     clearInputFields();
                     $('#docentVerwijderen').modal('hide');
@@ -282,7 +278,6 @@
                 if (this.readyState == 4 && this.status == 200) {
                     let docentenDataList = JSON.parse(this.responseText);
                     let docentenLijst = '';
-
                     docentenDataList.reverse();
 
                     for (let index = 0; index < docentenDataList.length; index++) {
@@ -304,7 +299,8 @@
                     }
                     docentenLijst += "";
                     document.getElementById("docGegevens").innerHTML = docentenLijst;
-                }else{
+                }
+                else{
                     document.getElementById("docGegevens").innerHTML = "<tr><td style=\"text-align:center;padding: 30px;\" colspan=\"7\">Er zijn momenteel geen docenten geregistreerd</td></tr>";
                 }
             };
@@ -312,8 +308,7 @@
             xhttp.send();
         }
         window.onload = docentenOphalen();
-
-            function docentToevoegen() {
+        function docentToevoegen() {
 
             let voornaam = document.getElementById("voornaam").value;
             let achternaam = document.getElementById("achternaam").value;
@@ -337,9 +332,11 @@
             xhttp.onreadystatechange = function() {
                 if (xhttp.readyState>3 && xhttp.status==200) {
                     docentenOphalen(); clearInputFields();
-                document.getElementById("error_message").innerHTML = '<div class="alert alert-success">U heeft succesvol een nieuwe docent toegevoegd  </div>';
-                $('#docentenToevoegen').modal('hide')}
-                else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger">Toevoegen is mislukt</div>';}
+                    $('#docentenToevoegen').modal('hide');
+                    $('.modal-backdrop').remove();
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>U heeft succesvol een nieuwe docent toegevoegd  </div>';
+}
+                else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Toevoegen is mislukt</div>';}
             };
             xhttp.setRequestHeader("Content-Type", "application/json");
             xhttp.send(json);
