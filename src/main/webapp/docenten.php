@@ -10,7 +10,9 @@
 			</div>
 		</section>
 		<div class="content">
-            <div id="error_message"></div>
+            <div id="error_message">
+
+            </div>
 			<div class="row">
                 <!-- table 2-->
                 <div class="col-md-12">
@@ -114,7 +116,7 @@
                 </div>
                 <div class="modal-body">
                     <form class="form-horizontal" action="">
-                        <input id="docent_id_form" value="" hidden/>
+                        <input type="hidden" id="docent_id_form" value="" />
                         <div class="form-group">
                             <div class="offset-md-2 col-md-8">
                                 <input type="text" class="form-control" id="voornaamDocent" value="" placeholder="Voornaam">
@@ -159,6 +161,28 @@
 
         </div>
     </div>
+    <div id="docentVerwijderen" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-md">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Docent Verwijderen</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="">
+                        <input type="hidden" id="deze_docent_verw" value="" />
+                        <p style="text-align:center;">Bent u zeker dat u <Strong><span id="voornaamDocentVerwijder"></span> <span id="achternaamDocentVerwijder"></span></Strong> wilt verwijderen?</p>
+                        <div class="offset-md-3 col-md-6">
+                            <button type="button"  class="btn btn-primary offset-md-1 col-md-4" data-dismiss="modal">Nee</button>
+                            <button type="button"  class="btn btn-primary offset-md-1 col-md-4" onclick="docentVerwijderen(document.getElementById('deze_docent_verw').value)">Ja</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <script>
         function docentOphalen(docent_id) {
 
@@ -175,8 +199,11 @@
 
 
                     document.getElementById("docent_id_form").value = docentGevonden.docent_id;
+                    document.getElementById("deze_docent_verw").value = docentGevonden.docent_id;
                     document.getElementById("voornaamDocent").value = docentGevonden.voornaam;
                     document.getElementById("achternaamDocent").value = docentGevonden.achternaam;
+                    document.getElementById("voornaamDocentVerwijder").innerHTML = docentGevonden.voornaam;
+                    document.getElementById("achternaamDocentVerwijder").innerHTML = docentGevonden.achternaam;
                     document.getElementById("emailDocent").value = docentGevonden.email;
                     document.getElementById("telefoonDocent").value = docentGevonden.telefoon;
                     document.getElementById("mobielDocent").value = docentGevonden.mobiel;
@@ -188,7 +215,31 @@
             xhttp.setRequestHeader("Content-Type", "application/json");
             xhttp.send(json);
         }
+        function docentVerwijderen(docent_id) {
+
+            let dataString = {
+                "docent_id": docent_id,
+            }
+            let json = JSON.stringify(dataString)
+
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (xhttp.readyState>3 && xhttp.status==200) {
+                    let docentGevonden = JSON.parse(this.responseText);
+                    docentenOphalen();
+                    clearInputFields();
+                    $('#docentVerwijderen').modal('hide');
+                    $('.modal-backdrop').remove();
+                    document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Succesvol een docent verwijderd</div>';
+                    }
+                else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Iets is mis gegaan tijdens het verwijderen</div>';}
+            };
+            xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/docenten/removeDocent", true);
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send(json);
+        }
         function docentBewerken() {
+            let docent_id = document.getElementById("docent_id_form").value;
             let voornaam = document.getElementById("voornaamDocent").value;
             let achternaam = document.getElementById("achternaamDocent").value;
             let email = document.getElementById("emailDocent").value;
@@ -197,6 +248,7 @@
             let gender = document.getElementById("genderDocent").value;
 
             let dataString = {
+                "docent_id":docent_id,
                 "voornaam": voornaam,
                 "achternaam": achternaam,
                 "email": email,
@@ -212,9 +264,11 @@
                 if (xmlhttp.readyState>3 && xmlhttp.status==200) {
                     docentenOphalen();
                     clearInputFields();
-                    document.getElementById("error_message").innerHTML = '<div class="alert alert-success">Aanpassingen waren succesvol</div>';
-                    $('#docentBewerken').modal('hide');}
-                    else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger">Iets is mis gegaan tijdens het aanpassen</div>';}
+                    $('#docentBewerken').modal('hide');
+                    $('.modal-backdrop').remove();
+                    document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Aanpassingen waren succesvol</div>';
+                    }
+                    else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Iets is mis gegaan tijdens het aanpassen</div>';}
             };
             xmlhttp.setRequestHeader("Content-Type", "application/json");
             xmlhttp.send(json);
@@ -243,7 +297,7 @@
                             ' <td> '+
                             '<div class="btn-group btn-group-xs">'+
                                 '<a onclick="docentOphalen('+ docentenDataList[index].docent_id +')" data-toggle="modal" data-target="#docentBewerken" title="Edit" class="btn btn-default"><i class="fa fa-edit"></i></a>'+
-                                '<a data-toggle="tooltip" title="delete" class="btn btn-default"><i class="fa fa-trash-alt"></i></a>'+
+                                '<a onclick="docentOphalen('+ docentenDataList[index].docent_id +')" data-toggle="modal" data-target="#docentVerwijderen" title="delete" class="btn btn-default"><i class="fa fa-trash-alt"></i></a>'+
                             '</div>'+
                             '</td>'+
                     ' </tr> ';

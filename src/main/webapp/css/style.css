@@ -1,3 +1,4 @@
+
 .login-box{
 margin-top:120px;}
 .logo_login{
@@ -42,6 +43,7 @@ margin-bottom:20px;}
 	background:#f8f9fa;
 	padding-left:0px!important;
 	padding-right:0px!important;
+        min-height: 100vh!important;
 	}
 	.header-jumbo{background-color: #fdfdfd!important;
     border-radius: 0px!important;
@@ -137,5 +139,6 @@ margin-bottom:20px;}
     .jumbotron {
         padding: 2rem 1rem!important;
     }}
+
 
 
