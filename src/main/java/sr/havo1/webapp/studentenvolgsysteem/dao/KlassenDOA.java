@@ -30,8 +30,6 @@ public class KlassenDOA {
             // Create a new object
             newKlas.setKlasnaam(klas.getKlasnaam());
             newKlas.setSchooljaar_id(klas.getSchooljaar_id());
-            newKlas.setKlasStudent(klas.getKlasStudent());
-
 
             // Save the object
             manager.persist(newKlas);
@@ -63,7 +61,7 @@ public class KlassenDOA {
             transaction = manager.getTransaction();
             transaction.begin();
 
-            klassen = manager.createQuery("SELECT g FROM Klassen g", Klassen.class).getResultList();
+            klassen = manager.createQuery("SELECT k FROM Klassen k", Klassen.class).getResultList();
 
             transaction.commit();
         } catch (Exception ex) {

@@ -13,7 +13,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        GebruikersDAO gebruikersDAO = new GebruikersDAO();
+        /*GebruikersDAO gebruikersDAO = new GebruikersDAO();
 
         Boolean resultaat = gebruikersDAO.checkLoginCredentials("dwightjubi@gmail.com","1456");
 
@@ -22,20 +22,22 @@ public class App {
         }
         else{
             System.out.println("Verkeerde login gegevens");
-        }
+        }*/
         /*Schooljaar s = new Schooljaar();
-        s.setSchooljaar(2020);
+        s.setSchooljaar(2019);
         s.setStatus(false);
 
         SchooljaarDAO sdao = new SchooljaarDAO();
         sdao.addSchooljaar(s);*/
 
-        /*Vakken vak = new Vakken();
-        vak.setVaknaam("Nederlands");
-        vak.setAfkorting("N/A");
+        SchooljaarDAO sdao = new SchooljaarDAO();
 
-        VakkenDAO vakkenDAO = new VakkenDAO();
-        vakkenDAO.addVak(vak);*/
+        Klassen klas = new Klassen();
+        klas.setKlasnaam("1407");
+        klas.setSchooljaar_id(sdao.getSchooljaar(1L));
+
+        KlassenDOA klassenDOA = new KlassenDOA();
+        klassenDOA.addKlas(klas);
 
         /*RechtenDAO rechtenDAO = new RechtenDAO();
         Rechten rechtUpdate = rechtenDAO.getRecht(2L);

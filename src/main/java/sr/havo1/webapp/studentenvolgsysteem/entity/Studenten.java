@@ -20,6 +20,7 @@ public class Studenten implements Serializable {
     private String voornaam;
     private String achternaam;
     private Date geboortedatum;
+    private String geslacht;
     private String geboorteplaats;
     private String district;
     private String adres;
@@ -77,6 +78,11 @@ public class Studenten implements Serializable {
     public void setGeboortedatum(Date geboortedatum) {
         this.geboortedatum = geboortedatum;
     }
+
+    @Column(name = "geslacht", nullable = false)
+    public String getGeslacht() {return geslacht;}
+
+    public void setGeslacht(String geslacht) {this.geslacht = geslacht;}
 
     @Column(name = "geboorteplaats", nullable = false)
     public String getGeboorteplaats() {
