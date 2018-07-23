@@ -126,7 +126,7 @@ public class GebruikersDAO {
         String wachtwoordCheck = gebruiker.getWachtwoord();
 
         if (emailCheck == null){
-        return resultaat = false;
+        return false;
         }
             if(emailCheck.equals(emailInput) && wachtwoordCheck.equals(wachtwoordInput)){
                 return true;

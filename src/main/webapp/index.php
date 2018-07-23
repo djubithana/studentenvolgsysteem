@@ -7,7 +7,7 @@
 		<h2 class="login-header">Cijfer Volgsysteem</h2>
 
 				<div class="inner-login-box">
-                    <div id="error_message"></div>
+                    <div id="error_message" class="alert-danger""></div>
 					<input class="form-control" type="email" id="email" placeholder="Email"></input>
 
 					<input class="form-control" type="password" id="wachtwoord" placeholder="Password"></input>
@@ -49,7 +49,7 @@ function getLoginCredentials() {
                     window.location.href = 'dashboard.php';
                 }
                 else{
-    document.getElementById("error_message").innerHTML = "Oops!! Er is iets mis gegaan";
+    document.getElementById("error_message").innerHTML = "Oops!! Uw login gegevens zijn verkeerd";
 }
 
 }
@@ -57,7 +57,7 @@ function getLoginCredentials() {
 
 
             }
-        xhttp.open("POST", "http://localhost:7071/studentenvolgsysteem/api/gebruikers/checkLogin?email="+emailInput+"&wachtwoord="+wachtwoordInput, true);
+        xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/gebruikers/checkLogin?email="+emailInput+"&wachtwoord="+wachtwoordInput, true);
         xhttp.setRequestHeader("Content-Type", "text/plain");
         xhttp.setRequestHeader('Access-Control-Allow-Origin', '*')
         xhttp.send();
