@@ -57,7 +57,7 @@ function getLoginCredentials() {
 
 
             }
-        xhttp.open("POST", "http://localhost:7071/studentenvolgsysteem/api/gebruikers/checkLogin?email="+emailInput+"&wachtwoord="+wachtwoordInput, true);
+        xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/gebruikers/checkLogin?email="+emailInput+"&wachtwoord="+wachtwoordInput, true);
         xhttp.setRequestHeader("Content-Type", "text/plain");
         xhttp.setRequestHeader('Access-Control-Allow-Origin', '*')
         xhttp.send();

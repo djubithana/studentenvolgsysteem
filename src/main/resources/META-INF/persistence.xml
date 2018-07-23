@@ -15,7 +15,7 @@
             <!-- The database username -->
             <property name="javax.persistence.jdbc.user" value="root" />
             <!-- The database password -->
-            <property name="javax.persistence.jdbc.password" value="831jesus" />
+            <property name="javax.persistence.jdbc.password" value="" />
         </properties>
 
     </persistence-unit>
