@@ -27,7 +27,7 @@
                                         <th>Voornaam</th>
                                         <th>Achternaam</th>
                                         <th>Email</th>
-                                        <th>Gender</th>
+                                        <th>Geslacht</th>
                                         <th>Mobiel</th>
                                         <th>Status</th>
                                         <th>Opties</th>
@@ -89,10 +89,10 @@
                     </div>
                     <div class="form-group">
                         <div class="offset-md-2 col-md-8">
-                            <select type="text" class="form-control" id="gender">
-                                <option value="" disabled>Gender</option>
-                                <option value="0">Man</option>
-                                <option value="1">Vrouw</option>
+                            <select type="text" class="form-control" id="geslacht">
+                                <option value="" disabled>Geslacht</option>
+                                <option value="m">Man</option>
+                                <option value="v">Vrouw</option>
                             </select>
                         </div>
                     </div>
@@ -144,10 +144,10 @@
                         </div>
                         <div class="form-group">
                             <div class="offset-md-2 col-md-8">
-                                <select type="text" class="form-control" id="genderDocent">
-                                    <option value="" disabled>Gender</option>
-                                    <option value="0">Man</option>
-                                    <option value="1">Vrouw</option>
+                                <select type="text" class="form-control" id="geslachtDocent">
+                                    <option value="" disabled>Geslacht</option>
+                                    <option value="m">Man</option>
+                                    <option value="v">Vrouw</option>
                                 </select>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                     document.getElementById("emailDocent").value = docentGevonden.email;
                     document.getElementById("telefoonDocent").value = docentGevonden.telefoon;
                     document.getElementById("mobielDocent").value = docentGevonden.mobiel;
-                    document.getElementById("genderDocent").value = docentGevonden.gender;
+                    document.getElementById("geslachtDocent").value = docentGevonden.geslacht;
                 }
             };
             xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/docenten/getDocent", true);
@@ -241,7 +241,7 @@
             let email = document.getElementById("emailDocent").value;
             let telefoon = document.getElementById("telefoonDocent").value;
             let mobiel = document.getElementById("mobielDocent").value;
-            let gender = document.getElementById("genderDocent").value;
+            let geslacht = document.getElementById("geslachtDocent").value;
 
             let dataString = {
                 "docent_id":docent_id,
@@ -250,7 +250,7 @@
                 "email": email,
                 "telefoon": telefoon,
                 "mobiel": mobiel,
-                "gender": gender
+                "geslacht": geslacht
             }
             let json = JSON.stringify(dataString)
 
@@ -286,7 +286,7 @@
                             ' <td>'+ docentenDataList[index].voornaam +' </td> ' +
                             ' <td>'+ docentenDataList[index].achternaam + '</td> ' +
                             ' <td>'+ docentenDataList[index].email + '</td> ' +
-                            ' <td>'+ docentenDataList[index].gender + '</td> ' +
+                            ' <td>'+ docentenDataList[index].geslacht + '</td> ' +
                             ' <td>'+ docentenDataList[index].mobiel + '</td> ' +
                             ' <td>active</td> ' +
                             ' <td> '+
@@ -315,7 +315,7 @@
             let email = document.getElementById("email").value;
             let telefoon = document.getElementById("telefoon").value;
             let mobiel = document.getElementById("mobiel").value;
-            let gender = document.getElementById("gender").value;
+            let geslacht = document.getElementById("geslacht").value;
 
             let dataString = {
                 "voornaam": voornaam,
@@ -323,7 +323,7 @@
                 "email": email,
                 "telefoon": telefoon,
                 "mobiel": mobiel,
-                "gender": gender
+                "geslacht": geslacht
             }
             let json = JSON.stringify(dataString)
 
@@ -348,7 +348,7 @@
             document.getElementById("email").value = "";
             document.getElementById("telefoon").value = "";
             document.getElementById("mobiel").value = "";
-            document.getElementById("gender").value = "";
+            document.getElementById("geslacht").value = "";
         }
     </script>
 <?php  include'inc/bottom.php';?>
