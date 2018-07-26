@@ -1,10 +1,12 @@
 package sr.havo1.webapp.studentenvolgsysteem.controller;
 
 import sr.havo1.webapp.studentenvolgsysteem.dao.RollenRechtenDAO;
+import sr.havo1.webapp.studentenvolgsysteem.entity.Gebruikers;
 import sr.havo1.webapp.studentenvolgsysteem.entity.RollenRechten;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * Created by DENCIO on 6/26/2018.
@@ -14,6 +16,13 @@ import javax.ws.rs.core.MediaType;
 public class RollenRechtenController {
 
     private RollenRechtenDAO rollenRechtenDAO = new RollenRechtenDAO();
+
+    @Path("/list")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<RollenRechten> findAll() {
+        return rollenRechtenDAO.loadAllRollenRechten();
+    }
 
     @Path("/addRolRecht")
     @POST
