@@ -452,15 +452,12 @@
                     }
                     districtenLijst += "";
                     document.getElementById("district_id").innerHTML = districtenLijst;
+                    document.getElementById("verzorger_district_id").innerHTML = districtenLijst;
 
 
                 }else{
                     document.getElementById("district_id").innerHTML = "<option style=\"text-align:center;padding: 30px;\" colspan=\"8\">Geen Districten</option>";
                 }
-
-            }
-            else{
-                document.getElementById("studGegevens").innerHTML = "<tr><td style=\"text-align:center;padding: 30px;\" colspan=\"8\">Iets is misgegaan. Contact de administrator</td></tr>";
             }
         };
         xhttp.open("GET", OPHAAL_URL, true);
@@ -504,9 +501,6 @@
                     document.getElementById("pakket_id").innerHTML = "<option style=\"text-align:center;padding: 30px;\" colspan=\"8\">Geen Pakketten</option>";
                 }
 
-            }
-            else{
-                document.getElementById("pakket_id").innerHTML = "<tr><td style=\"text-align:center;padding: 30px;\" colspan=\"8\">Iets is misgegaan. Contact de administrator</td></tr>";
             }
         };
         xhttp.open("GET", OPHAAL_URL, true);
@@ -576,7 +570,6 @@
         xhttp.send(json);
 
     }
-
     function studentOphalen(student_id) {
 
         let dataString = {
@@ -591,11 +584,12 @@
                 let dateNumberString = studentGevonden.geboortedatum;
                 let nieuweDag = new Date(dateNumberString);
                 let jaar = nieuweDag.getFullYear();
-                let maand = nieuweDag.getMonth();
-                let dag = nieuweDag.getDate();
+                let maand = nieuweDag.getMonth()+1;
+                let dag = nieuweDag.getUTCDate();
                 if(10 > maand){maand = "0"+maand;}
                 if(10 > dag){dag = "0"+dag;} else{dag = ""+dag;}
                 let dagFormaat = jaar+"-"+maand+"-"+dag;
+
 
 
 
@@ -631,8 +625,6 @@
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.send(json);
     }
-
-
     function studentenVerwijderen(student_id) {
 
         let dataString = {
@@ -656,10 +648,18 @@
         xhttp.send(json);
     }
     function studentBewerken() {
+        let geboortedatum = document.getElementById("geboortedatum_bew").value;
+        let nieuweDag = new Date(geboortedatum);
+        let jaar = nieuweDag.getFullYear();
+        let maand = nieuweDag.getMonth()+1;
+        let dag = nieuweDag.getUTCDate()+1;
+        if(10 > maand){maand = "0"+maand;}
+        if(10 > dag){dag = "0"+dag;} else{dag = ""+dag;}
+        let dagFormaat = jaar+"-"+maand+"-"+dag;
         let student_id = document.getElementById("student_id").value;
         let voornaam = document.getElementById("voornaam_bew").value;
         let achternaam = document.getElementById("achternaam_bew").value;
-        let geboortedatum = document.getElementById("geboortedatum_bew").value;
+
         let geboorteplaats = document.getElementById("geboorteplaats_bew").value;
         let district_id = document.getElementById("district_id_bew").value;
         let adres = document.getElementById("adres_bew").value;
@@ -683,7 +683,7 @@
             "student_id":student_id,
             "voornaam": voornaam,
             "achternaam": achternaam,
-            "geboortedatum": geboortedatum,
+            "geboortedatum": dagFormaat,
             "geboorteplaats": geboorteplaats,
             "district_id": district_id,
             "adres": adres,
@@ -720,7 +720,6 @@
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.send(json);
     }
-
     function clearInputFields() {
         document.getElementById("voornaam").value = "";
         document.getElementById("achternaam").value = "";
