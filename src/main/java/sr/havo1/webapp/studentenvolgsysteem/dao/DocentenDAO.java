@@ -34,7 +34,7 @@ public class DocentenDAO {
             newDocent.setEmail(docent.getEmail());
             newDocent.setTelefoon(docent.getTelefoon());
             newDocent.setMobiel(docent.getMobiel());
-            newDocent.setGender(docent.getGender());
+            newDocent.setGeslacht(docent.getGeslacht());
 
             // Save the object
             manager.persist(newDocent);

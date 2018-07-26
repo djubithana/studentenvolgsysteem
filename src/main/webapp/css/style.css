@@ -78,7 +78,7 @@ margin-bottom:20px;}
     .widget {
 
         position: relative;
-        background: #fff;
+        background: none;
         color: #5b5b5b;
         margin-bottom: 20px;
         -webkit-border-radius: 2px;
@@ -91,7 +91,11 @@ margin-bottom:20px;}
       width: 100%;
       clear: both;
     }
-
+.formulier-titels{
+    font-weight: 200;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
 
      /* Dropdown Button */
     .dropbtn {

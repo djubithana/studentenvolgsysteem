@@ -22,7 +22,7 @@ public class Docenten implements Serializable{
     private String email;
     private int telefoon;
     private int mobiel;
-    private int gender;
+    private String geslacht;
 
 
 
@@ -87,9 +87,9 @@ public class Docenten implements Serializable{
         this.mobiel = mobiel;
     }
 
-    public int getGender() { return gender; }
+    public String getGeslacht() { return geslacht; }
 
-    public void setGender(int gender) { this.gender = gender; }
+    public void setGeslacht(String geslacht) { this.geslacht = geslacht; }
     /*@OneToMany(mappedBy = "docent_id", fetch = FetchType.LAZY)
     public List<Gebruikers> getGebruiker() {
         return gebruiker;
