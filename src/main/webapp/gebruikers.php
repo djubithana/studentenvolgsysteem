@@ -78,7 +78,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="btn" type="button" class="btn btn-primary" onclick="gebruikerOpslaan()">Toevoegen</button>
+                    <button id="btn" type="button" class="btn btn-primary" onclick="rollenRechtenOPhalen(),gebruikerOpslaan()">Toevoegen</button>
                 </div>
             </div>
             </div>
@@ -107,7 +107,7 @@
                             ' <td>'+ gebruikersDataList[index].achternaam + '</td> ' +
                             ' <td>'+ gebruikersDataList[index].email + '</td> ' +
                             ' <td>'+ gebruikersDataList[index].wachtwoord + '</td> ' +
-                            ' <td>'+ gebruikersDataList[index].rol + '</td> ' +
+                            ' <td>'+ gebruikersDataList[index].rol_recht_id.rol_id.rolnaam + '</td> ' +
                             ' <td> '+
                             '<td><button id= ' + gebruikersDataList[index].gebruiker_id + ' onclick="gebruikerBewerken(this.id)" ' +
                             'class="btn_tabel" data-toggle="modal" data-target="#gebruikerToevoegen" title="Edit" class="btn btn-default"><i class="fas fa-edit"></i></button></td>' +
@@ -161,8 +161,8 @@
                 let rolDatalist = JSON.parse(this.responseText);
                 for (let index = 0; index < rolDatalist.length; index++){
                     let option = document.getElementById("OPTION");
-                    option.text = rolDatalist[index].rol_id;
-                    option.value = rolDatalist[index].rol_id;
+                    option.text = rolDatalist[index].rol_recht_id.rol_id.rolnaam;
+                    option.value = rolDatalist[index].rol_recht_id.rol_id.rol_id;
                     select.add(option);
                 }
             }

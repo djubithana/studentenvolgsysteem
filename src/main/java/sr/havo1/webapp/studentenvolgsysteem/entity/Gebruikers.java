@@ -91,7 +91,7 @@ public class Gebruikers implements Serializable{
     public void setLaatst_ingelogd_op(Timestamp laatst_ingelogd_op) {
         this.laatst_ingelogd_op = laatst_ingelogd_op;
     }
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "rol_recht_id")
     public RollenRechten getRol_recht_id() {
