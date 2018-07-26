@@ -33,8 +33,9 @@ public class StudentenDAO {
             newStudent.setAchternaam(student.getAchternaam());
             newStudent.setGeboortedatum(student.getGeboortedatum());
             newStudent.setGeslacht(student.getGeslacht());
+            newStudent.setStatus(student.getStatus());
             newStudent.setGeboorteplaats(student.getGeboorteplaats());
-            newStudent.setDistrict(student.getDistrict());
+            newStudent.setDistrict_id(student.getDistrict_id());
             newStudent.setAdres(student.getAdres());
             newStudent.setTelefoon(student.getTelefoon());
             newStudent.setMedische_klachten(student.getMedische_klachten());
@@ -42,13 +43,14 @@ public class StudentenDAO {
             newStudent.setRichting_mulo(student.getRichting_mulo());
             newStudent.setNaam_verzorger(student.getNaam_verzorger());
             newStudent.setVerzorger_beroep(student.getVerzorger_beroep());
-            newStudent.setVerzorger_district(student.getVerzorger_district());
+            newStudent.setVerzorger_district_id(student.getVerzorger_district_id());
             newStudent.setVerzorger_adres(student.getVerzorger_adres());
             newStudent.setVerzorger_telefoon(student.getVerzorger_telefoon());
             newStudent.setVerzorger_werkadres(student.getVerzorger_werkadres());
             newStudent.setVerzorger_werktelefoon(student.getVerzorger_werktelefoon());
             newStudent.setPakket_id(student.getPakket_id());
-            newStudent.setRelatie_id(student.getRelatie_id());
+            newStudent.setType_verzorger(student.getType_verzorger());
+            newStudent.setStatus(student.getStatus());
 
             // Save the object
             manager.persist(newStudent);
