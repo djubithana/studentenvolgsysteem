@@ -588,15 +588,13 @@
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState>3 && xhttp.status==200) {
                 let studentGevonden = JSON.parse(this.responseText);
-                var dateNumberString = studentGevonden.geboortedatum;
+                let dateNumberString = studentGevonden.geboortedatum;
                 let nieuweDag = new Date(dateNumberString);
                 let jaar = nieuweDag.getFullYear();
                 let maand = nieuweDag.getMonth();
-                let dag = nieuweDag.getDay();
-                if(maand<10 || dag<10){
-                    maand = "0"+maand;
-                    dag = "0"+dag;
-                }
+                let dag = nieuweDag.getDate();
+                if(10 > maand){maand = "0"+maand;}
+                if(10 > dag){dag = "0"+dag;} else{dag = ""+dag;}
                 let dagFormaat = jaar+"-"+maand+"-"+dag;
 
 
