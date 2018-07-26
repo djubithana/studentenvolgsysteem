@@ -10,9 +10,7 @@
 			</div>
 		</section>
 		<div class="content">
-            <div id="error_message">
-
-            </div>
+            <div id="error_message"></div>
 			<div class="row">
                 <!-- table 2-->
                 <div class="col-md-12">
@@ -280,28 +278,32 @@
                     let docentenLijst = '';
                     docentenDataList.reverse();
 
-                    for (let index = 0; index < docentenDataList.length; index++) {
-                        docentenLijst +=
-                    ' <tr>' +
-                            ' <td>'+ docentenDataList[index].voornaam +' </td> ' +
-                            ' <td>'+ docentenDataList[index].achternaam + '</td> ' +
-                            ' <td>'+ docentenDataList[index].email + '</td> ' +
-                            ' <td>'+ docentenDataList[index].geslacht + '</td> ' +
-                            ' <td>'+ docentenDataList[index].mobiel + '</td> ' +
-                            ' <td>active</td> ' +
-                            ' <td> '+
-                            '<div class="btn-group btn-group-xs">'+
+                    if(docentenDataList.length > 0){
+                        for (let index = 0; index < docentenDataList.length; index++) {
+                            docentenLijst +=
+                                ' <tr>' +
+                                ' <td>'+ docentenDataList[index].voornaam +' </td> ' +
+                                ' <td>'+ docentenDataList[index].achternaam + '</td> ' +
+                                ' <td>'+ docentenDataList[index].email + '</td> ' +
+                                ' <td>'+ docentenDataList[index].geslacht + '</td> ' +
+                                ' <td>'+ docentenDataList[index].mobiel + '</td> ' +
+                                ' <td>active</td> ' +
+                                ' <td> '+
+                                '<div class="btn-group btn-group-xs">'+
                                 '<a onclick="docentOphalen('+ docentenDataList[index].docent_id +')" data-toggle="modal" data-target="#docentBewerken" title="Edit" class="btn btn-default"><i class="fa fa-edit"></i></a>'+
                                 '<a onclick="docentOphalen('+ docentenDataList[index].docent_id +')" data-toggle="modal" data-target="#docentVerwijderen" title="delete" class="btn btn-default"><i class="fa fa-trash-alt"></i></a>'+
-                            '</div>'+
-                            '</td>'+
-                    ' </tr> ';
+                                '</div>'+
+                                '</td>'+
+                                ' </tr> ';
+                        }
+                        docentenLijst += "";
+                        document.getElementById("docGegevens").innerHTML = docentenLijst;
                     }
-                    docentenLijst += "";
-                    document.getElementById("docGegevens").innerHTML = docentenLijst;
+                    else{ document.getElementById("docGegevens").innerHTML = "<tr><td style=\"text-align:center;padding: 30px;\" colspan=\"7\">Er zijn geen studenten geregistreerd</td></tr>";}
+
                 }
                 else{
-                    document.getElementById("docGegevens").innerHTML = "<tr><td style=\"text-align:center;padding: 30px;\" colspan=\"7\">Er zijn momenteel geen docenten geregistreerd</td></tr>";
+                    document.getElementById("docGegevens").innerHTML = "<tr><td style=\"text-align:center;padding: 30px;\" colspan=\"7\">Iets is misgegaan. Maak contact met de administrator</td></tr>";
                 }
             };
             xhttp.open("GET", OPHAAL_URL, true);

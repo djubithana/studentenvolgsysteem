@@ -21,8 +21,9 @@ public class Studenten implements Serializable {
     private String achternaam;
     private Date geboortedatum;
     private String geslacht;
+    private int status;
     private String geboorteplaats;
-    private String district;
+    private int district_id;
     private String adres;
     private int telefoon;
     private String medische_klachten;
@@ -30,13 +31,15 @@ public class Studenten implements Serializable {
     private String richting_mulo;
     private String naam_verzorger;
     private String verzorger_beroep;
-    private String verzorger_district;
+    private int verzorger_district_id;
     private String verzorger_adres;
     private int verzorger_telefoon;
     private String verzorger_werkadres;
     private int verzorger_werktelefoon;
     private Pakketten pakket_id;
-    private Relaties relatie_id;
+    private String type_verzorger;
+
+
 
     private List<KlassenStudenten> klasStudent = new ArrayList<KlassenStudenten>();
     private List<Keuzevakken> keuzevak = new ArrayList<Keuzevakken>();
@@ -93,13 +96,13 @@ public class Studenten implements Serializable {
         this.geboorteplaats = geboorteplaats;
     }
 
-    @Column(name = "district", nullable = false)
-    public String getDistrict() {
-        return district;
+    @Column(name = "district_id", nullable = false)
+    public int getDistrict_id() {
+        return district_id;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setDistrict_id(int district) {
+        this.district_id = district;
     }
 
     @Column(name = "adres", nullable = false)
@@ -165,13 +168,13 @@ public class Studenten implements Serializable {
         this.verzorger_beroep = verzorger_beroep;
     }
 
-    @Column(name = "verzorger_district", nullable = false)
-    public String getVerzorger_district() {
-        return verzorger_district;
+    @Column(name = "verzorger_district_id", nullable = false)
+    public int getVerzorger_district_id() {
+        return verzorger_district_id;
     }
 
-    public void setVerzorger_district(String verzorger_district) {
-        this.verzorger_district = verzorger_district;
+    public void setVerzorger_district_id(int verzorger_district) {
+        this.verzorger_district_id = verzorger_district;
     }
 
     @Column(name = "verzorger_adres", nullable = false)
@@ -209,6 +212,16 @@ public class Studenten implements Serializable {
     public void setVerzorger_werktelefoon(int verzorger_werktelefoon) {
         this.verzorger_werktelefoon = verzorger_werktelefoon;
     }
+    public int getStatus() { return status; }
+    public void setStatus(int status) { this.status = status; }
+
+    public String getType_verzorger() {
+        return type_verzorger;
+    }
+
+    public void setType_verzorger(String type_verzorger) {
+        this.type_verzorger = type_verzorger;
+    }
 
     @ManyToOne
     @JoinColumn(name = "pakket_id")
@@ -218,16 +231,6 @@ public class Studenten implements Serializable {
 
     public void setPakket_id(Pakketten pakket_id) {
         this.pakket_id = pakket_id;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "relatie_id")
-    public Relaties getRelatie_id() {
-        return relatie_id;
-    }
-
-    public void setRelatie_id(Relaties relatie_id) {
-        this.relatie_id = relatie_id;
     }
 
     @JsonIgnore

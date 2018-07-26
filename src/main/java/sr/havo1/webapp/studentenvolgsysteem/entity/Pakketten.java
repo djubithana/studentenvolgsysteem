@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "pakketten")
 public class Pakketten implements Serializable{
 
-    private int pakket_id;
+    private long pakket_id;
     private String pakketnaam;
 
     private List<Studenten> student = new ArrayList<Studenten>();
@@ -23,11 +23,11 @@ public class Pakketten implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pakket_id", unique = true)
-    public int getPakket_id() {
+    public long getPakket_id() {
         return pakket_id;
     }
 
-    public void setPakket_id(int pakket_id) {
+    public void setPakket_id(long pakket_id) {
         this.pakket_id = pakket_id;
     }
 
