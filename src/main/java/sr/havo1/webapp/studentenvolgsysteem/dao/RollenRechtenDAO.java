@@ -1,6 +1,7 @@
 package sr.havo1.webapp.studentenvolgsysteem.dao;
 
 import sr.havo1.webapp.studentenvolgsysteem.entity.RollenRechten;
+import sr.havo1.webapp.studentenvolgsysteem.entity.Schooljaar;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,6 +17,30 @@ public class RollenRechtenDAO {
 
     public static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("studentenvolgsysteem");
 
+    public List<RollenRechten> loadAllRollenRechten() {
+
+        List<RollenRechten> rollenRechten = new ArrayList<RollenRechten>();
+
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+
+            rollenRechten = manager.createQuery("SELECT r FROM RollenRechten r", RollenRechten.class).getResultList();
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            manager.close();
+        }
+        return rollenRechten;
+    }
     public RollenRechten addRolRecht(RollenRechten rolRecht) {
         // Create an EntityManager
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
