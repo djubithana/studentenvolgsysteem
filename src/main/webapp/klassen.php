@@ -12,7 +12,8 @@
                 </div>
 			</section>
 			<div class="content">
-				<div class="row">
+                <div id="error_message"></div>
+                <div class="row">
                     <div class="col-md-12">
                         <div class="widget">
                         <div class="widget-content">
@@ -153,7 +154,15 @@
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", url , true);
         xhttp.onreadystatechange = function() {
-            if (xhttp.readyState>3 && xhttp.status==200) { clearInputFields();}
+            if (xhttp.readyState>3 && xhttp.status==200) {
+                clearInputFields();
+                $('#studentAanKlasToevoegen').modal('hide');
+                $('.modal-backdrop').remove();
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Succesvol toegevoegd  </div>';
+            }
+            else{
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Toevoegen is mislukt</div>';
+            }
         };
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.send(json);
@@ -280,7 +289,14 @@
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/klassen/addKlas", true);
         xhttp.onreadystatechange = function() {
-            if (xhttp.readyState>3 && xhttp.status==200) { loadKlassen(); clearInputFields();}
+            if (xhttp.readyState>3 && xhttp.status==200) { loadKlassen(); clearInputFields();
+                $('#klasToevoegen').modal('hide');
+                $('.modal-backdrop').remove();
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>U heeft succesvol een nieuwe klas toegevoegd  </div>';
+            }
+            else{
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Toevoegen is mislukt</div>';
+            }
         };
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.send(json);
@@ -304,7 +320,12 @@
             if (xmlhttp.readyState>3 && xmlhttp.status==200) {
                 loadKlassen();
                 clearInputFields();
-                document.getElementById("btn").innerHTML = "Toevoegen";}
+                $('#klasToevoegen').modal('hide');
+                $('.modal-backdrop').remove();
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Aanpassingen waren succesvol</div>';
+                document.getElementById("btn").innerHTML = "Toevoegen";
+            }
+            else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Iets is mis gegaan tijdens het aanpassen</div>';}
         };
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.send(json);

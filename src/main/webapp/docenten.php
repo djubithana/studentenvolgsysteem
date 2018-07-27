@@ -7,7 +7,9 @@
 			<div class="container">
 				<h4 class="jumbotron-heading">Docenten Overzicht</h4>
 				<button type="button" class="btn_dark_bg" data-toggle="modal" data-target="#docentenToevoegen">Toevoegen</button>
-			</div>
+                <button type="button" class="btn_dark_bg" data-toggle="modal" data-target="#vakAanDocentToevoegen">Vak toevoegen aan docent</button>
+
+            </div>
 		</section>
 		<div class="content">
             <div id="error_message"></div>
@@ -181,7 +183,128 @@
 
         </div>
     </div>
+
+    <div id="vakAanDocentToevoegen" tabindex="-1" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Student toevoegen aan klas</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="/action_page.php">
+
+                        <div class="form-group">
+                            <div class="offset-md-2 col-md-8">
+                                <input type="hidden" class="form-control" id="docent_vak_id">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="offset-md-2 col-md-8">
+                                <select id = "vakkenList" class="form-control">
+                                    <option value="" disabled>Vakken</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="offset-md-2 col-md-8">
+                                <select id = "docentenList" class="form-control">
+                                    <option value="" disabled>Docenten</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="btn" type="button" onclick="vakToevoegenAanDocent()" class="btn btn-primary">Toevoegen</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <script>
+        populateVakken();
+        populateDocenten();
+
+        function vakToevoegenAanDocent(){
+            let docent_vak_id = document.getElementById("docent_vak_id").value;
+            let vak_id = document.getElementById("vakkenList").value;
+            let docent_id = document.getElementById("docentenList").value;
+
+            let data = {
+                "docent_vak_id": null,
+                "vak_id":{"vak_id": vak_id, "vaknaam": document.getElementById("vakkenList").text},
+                "docent_id":  {"docent_id": docent_id, "achternaam": document.getElementById("docentenList").text, "voornaam": document.getElementById("docentenList").text}
+            };
+            let json = JSON.stringify(data);
+
+            let url = "http://localhost:7070/studentenvolgsysteem/api/docentenVakken/addDocentVak";
+
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST", url , true);
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState>3 && xhttp.status==200) {
+                    clearInputFields();
+                    $('#vakAanDocentToevoegen').modal('hide');
+                    $('.modal-backdrop').remove();
+                    document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Succesvol toegevoegd  </div>';
+                }
+                else{
+                    document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Toevoegen is mislukt</div>';
+                }
+
+            };
+            xhttp.setRequestHeader("Content-Type", "application/json");
+            xhttp.send(json);
+        }
+
+        function populateVakken() {
+            let URL = "http://localhost:7070/studentenvolgsysteem/api/vakken/list";
+
+            let select = document.getElementById("vakkenList");
+
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let vakkenDataList = JSON.parse(this.responseText);
+                    for (let index = 0; index < vakkenDataList.length; index++) {
+                        let option = document.createElement("OPTION");
+                        option.text = vakkenDataList[index].vaknaam;
+                        option.value = vakkenDataList[index].vak_id;
+                        select.add(option);
+                    }
+                }
+            };
+            xhttp.open("GET", URL, true);
+            xhttp.send();
+        }
+
+        function populateDocenten() {
+            let URL = "http://localhost:7070/studentenvolgsysteem/api/docenten/list";
+
+            let select = document.getElementById("docentenList");
+
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let docentenDataList = JSON.parse(this.responseText);
+                    for (let index = 0; index < docentenDataList.length; index++) {
+                        let option = document.createElement("OPTION");
+                        option.text = docentenDataList[index].achternaam + ", " + docentenDataList[index].voornaam;
+                        option.value = docentenDataList[index].docent_id;
+                        select.add(option);
+                    }
+                }
+            };
+            xhttp.open("GET", URL, true);
+            xhttp.send();
+        }
+
         function docentOphalen(docent_id) {
 
             let dataString = {
@@ -351,6 +474,9 @@
             document.getElementById("telefoon").value = "";
             document.getElementById("mobiel").value = "";
             document.getElementById("geslacht").value = "";
+            document.getElementById("docent_vak_id").value = "";
+            document.getElementById("vakkenList").value = "";
+            document.getElementById("docentenList").value = "";
         }
     </script>
 <?php  include'inc/bottom.php';?>
