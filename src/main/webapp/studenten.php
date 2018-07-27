@@ -399,11 +399,11 @@
                 studentenDataList.reverse();
                 if(studentenDataList.length > 0){
                     for (let index = 0; index < studentenDataList.length; index++) {
-                        districtOphalen(studentenDataList[index].district_id);
                         let status ="";
                         if(studentenDataList[index].status === 1){
                             status = "Actief";
                         }else{ status = "Inactief";}
+                        districtOphalen(studentenDataList[index].district_id);
                         studentenLijst +=
                             ' <tr>' +
                             ' <td>'+ studentenDataList[index].voornaam +' </td> ' +
@@ -589,10 +589,6 @@
                 if(10 > maand){maand = "0"+maand;}
                 if(10 > dag){dag = "0"+dag;} else{dag = ""+dag;}
                 let dagFormaat = jaar+"-"+maand+"-"+dag;
-
-
-
-
                 document.getElementById("student_id").value = studentGevonden.student_id;
                 document.getElementById("voornaam_bew").value = studentGevonden.voornaam;
                 document.getElementById("achternaam_bew").value = studentGevonden.achternaam;

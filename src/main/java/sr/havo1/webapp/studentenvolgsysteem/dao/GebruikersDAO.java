@@ -67,9 +67,7 @@ public class GebruikersDAO {
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-
             gebruikers = manager.createQuery("SELECT g FROM Gebruikers g", Gebruikers.class).getResultList();
-
             transaction.commit();
         } catch (Exception ex) {
             if (transaction != null) {
