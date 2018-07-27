@@ -6,6 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DENCIO on 7/18/2018.
@@ -47,6 +49,31 @@ public class KlassenStudentenDAO {
             manager.close();
         }
         return newKlasStudent;
+    }
+
+    public List<KlassenStudenten> loadAllKlassenStudenten() {
+
+        List<KlassenStudenten> klassenStudenten = new ArrayList<KlassenStudenten>();
+
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = manager.getTransaction();
+            transaction.begin();
+
+            klassenStudenten = manager.createQuery("SELECT k FROM KlassenStudenten k", KlassenStudenten.class).getResultList();
+
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        } finally {
+            manager.close();
+        }
+        return klassenStudenten;
     }
 
     public KlassenStudenten getKlasStudent(Long klas_student_id) {
