@@ -6,11 +6,13 @@
 		<section class="jumbotron text-center header-jumbo">
 			<div class="container">
 				<h4 class="jumbotron-heading">Voeg een Gebruiker toe</h4>
-                <button type="button" class="btn_dark_bg" data-toggle="modal" data-target="#gebruikerToevoegen">Toevoegen</button>
+                <button type="button" class="btn_dark_bg" data-toggle="modal" onclick="rollenRechtenOphalen()" data-target="#gebruikerToevoegen">Toevoegen</button>
 			</div>
 		</section>
 		<div class="content">
+            <div id="error_message"></div>
 			<div class="row">
+
 		<table class="table table-condensed">
 		  <thead>
 			<tr>
@@ -67,18 +69,18 @@
                                 <input type="password" class="form-control" id="wachtwoord" placeholder="Wachtwoord">
                             </div>
                         </div>
-                        <div class="dropdown">
-                            <div class="offset-md-11 col-md-12">
-                                <select id="roldropdown" style="width: 180%; height:  30px">
-                                    <option id="rolId"  disabled selected>Select rol</option>
+                        <div class="form-group">
+                            <div class="offset-md-2 col-md-8">
+                                <select class="form-control" id="rolRechtdropdown">
                                 </select>
                             </div>
                         </div>
+                <div id="misgegaan"> </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button id="btn" type="button" class="btn btn-primary" onclick="rollenRechtenOPhalen(),gebruikerOpslaan()">Toevoegen</button>
+                    <button id="btn" type="button" class="btn btn-primary" onclick="gebruikerToevoegen()">Toevoegen</button>
                 </div>
             </div>
             </div>
@@ -87,7 +89,6 @@
     </div>
 
 <script>
-    rollenRechtenOPhalen();
     gebruikersOphalen();
 
     function gebruikersOphalen() {
@@ -109,11 +110,10 @@
                             ' <td>'+ gebruikersDataList[index].wachtwoord + '</td> ' +
                             ' <td>'+ gebruikersDataList[index].rol_recht_id.rol_id.rolnaam + '</td> ' +
                             ' <td> '+
-                            '<td><button id= ' + gebruikersDataList[index].gebruiker_id + ' onclick="gebruikerBewerken(this.id)" ' +
-                            'class="btn_tabel" data-toggle="modal" data-target="#gebruikerToevoegen" title="Edit" class="btn btn-default"><i class="fas fa-edit"></i></button></td>' +
-                            '<td><button id= ' + gebruikersDataList[index].gebruiker_id + ' onclick="gebruikerVerwijderen(this.id)" ' +
-                            ' title="delete" class="btn_tabel"><i class="fa fa-trash-alt"></i></button></td>'  +
-
+                            '<div class="btn-group btn-group-xs">'+
+                            '<a onclick="gebruikerBewerken(this.id)" data-toggle="modal" data-target="#gebruikerToevoegen" title="Edit" class="btn btn-default"><i class="fa fa-edit"></i></a>'+
+                            '<a onclick="gebruikerBewerken(this.id)" data-toggle="modal" data-target="#gebruikerVerwijderen" title="delete" class="btn btn-default"><i class="fa fa-trash-alt"></i></a>'+
+                            '</div>'+
                             '</td>'+
                             ' </tr> ';
                     }
@@ -135,79 +135,83 @@
         let achternaam = document.getElementById("achternaam").value;
         let email = document.getElementById("email").value;
         let wachtwoord = document.getElementById("wachtwoord").value;
-        let rolId = document.getElementById("roldropdown").value
+        let rolId = document.getElementById("rolRechtdropdown").value
 
         if (voornaam == "" || achternaam == "" || email == "" ||wachtwoord == "" || rolId == "")
         {
             document.getElementById("error_message").innerHTML = "Alle velden moeten ingevuld worden";
             pass = false;
         }else{
-            addGebruiker();
+            gebruikerToevoegen();
         }
 
         return pass;
 
     }
 
-    function rollenRechtenOPhalen() {
+    function rollenRechtenOphalen() {
 
         let URL = "http://localhost:7070/studentenvolgsysteem/api/rollenRechten/list";
-
-        let select = document.getElementById("roldropdown");
-
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
-            if (this.onreadystatechange == 4 && this.status == 200) {
+            if (this.readyState == 4 && this.status == 200) {
                 let rolDatalist = JSON.parse(this.responseText);
+                let rollenRechtenLijst="";
+
+                rolDatalist.reverse();
                 for (let index = 0; index < rolDatalist.length; index++){
-                    let option = document.getElementById("OPTION");
-                    option.text = rolDatalist[index].rol_recht_id.rol_id.rolnaam;
-                    option.value = rolDatalist[index].rol_recht_id.rol_id.rol_id;
-                    select.add(option);
+                    rollenRechtenLijst+=
+                        ' <option value="'+ rolDatalist[index].rol_recht_id +'">'+ rolDatalist[index].rol_id.rolnaam +' </option> ';
                 }
+                rollenRechtenLijst+= "";
+
+                document.getElementById("rolRechtdropdown").innerHTML = rollenRechtenLijst;
             }
+            else{document.getElementById("rolRechtdropdown").innerHTML = this.readyState.toString();}
         };
         xhttp.open("GET" , URL, true);
         xhttp.send();
+        /*
+             if(1 < 1){
+            document.getElementById("rolRechtdropdown").innerHTML = "Er zijn geen rollen beschikbaar";
+        }else{
+            document.getElementById("rolRechtdropdown").innerHTML = "Er zijn wel rollen beschikbaar";
+        }
+        */
 
     }
 
     function gebruikerToevoegen(){
-        let gebruiker_id = document.getElementById("gebruiker_id").value;
         let voornaam = document.getElementById("voornaam").value;
         let achternaam = document.getElementById("achternaam").value;
         let email = document.getElementById("email").value;
         let wachtwoord = document.getElementById("wachtwoord").value;
-        let rol_id = document.getElementById("roldropown").value;
+        let rol_id = document.getElementById("rolRechtdropdown").value;
 
 
         let dataString = {
-            "gebruiker_id": null,
             "voornaam": voornaam,
             "achternaam": achternaam,
             "email": email,
             "wachtwoord": wachtwoord,
-            "rol_id": rol_id
+            "rol_recht_id": {"rol_recht_id": rol_id, "rolnaam": document.getElementById("rolRechtdropdown").text}
         };
         let json = JSON.stringify(dataString);
 
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/gebruikers/addGebruiker", true);
         xhttp.onreadystatechange = function() {
-            if (xhttp.readyState>3 && xhttp.status==200) { gebruikersOphalen(); clearInputFields();}
+            if (xhttp.readyState>3 && xhttp.status==200) {
+                window.onload = gebruikersOphalen();
+                clearInputFields();
+                $('#gebruikerToevoegen').modal('hide');
+                $('.modal-backdrop').remove();
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>U heeft succesvol een nieuwe gebruiker toegevoegd  </div>';
+            }
+            else{document.getElementById("misgegaan").innerHTML = '<div class="alert alert-danger alert-dismissible" style="text-align:center;"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Toevoegen is mislukt</div>';}
         };
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.send(json);
-    }
-    function gebruikerOpslaan() {
-        if(validateForm())
-        {
-            if(document.getElementById("btn").innerHTML == 'Toevoegen') {
-                gebruikerToevoegen();
-            }else{
-                gebruikerBewerken();
-            }
-        }
     }
     function gebruikerBewerken() {
         let gebruiker_id = document.getElementById("gebruiker_id").value;
@@ -275,7 +279,7 @@
         document.getElementById("voornaam").value = "";
         document.getElementById("achternaam").value = "";
         document.getElementById("email").value = "";
-        document.getElementById("roldropdown").value = "";
+        document.getElementById("rolRechtdropdown").value = "";
         document.getElementById("btn").innerHTML = "Toevoegen";
     }
 

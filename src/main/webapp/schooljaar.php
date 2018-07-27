@@ -12,7 +12,7 @@
 		<div class="content">
             <div id="error_message"></div>
 			<div class="row">
-		<table class="table table-condensed">
+		<table class="table table-condensed offset-md-3 col-md-6">
 		  <thead>
 			<tr>
 			  <th scope="col">Schooljaar</th>
@@ -118,10 +118,12 @@
                             ' <tr> ' +
                             '<th scope="row">' + schooljaarDataList[index].schooljaar + "</th>" +
                             '<td>' + status + '</td>' +
-                            '<td><button id= ' + schooljaarDataList[index].schooljaar_id + ' onclick="editSchooljaar(this.id)" ' +
-                            'class="btn_tabel" data-toggle="modal" data-target="#schooljaarToevoegen"><i class="fas fa-edit fa-1x"></i></button></td>' +
-                            '<td><button id= ' + schooljaarDataList[index].schooljaar_id + ' onclick="openSchooljaar(this.id)" ' +
-                            'class="btn_tabel"><i class="far fa-folder-open"></i></button></td>' +
+                            '<td>' +
+                            '<div class="btn-group btn-group-xs">'+
+                            '<a id='+ schooljaarDataList[index].schooljaar_id +' onclick="editSchooljaar(this.id)" class="btn btn-default" data-toggle="modal" data-target="#schooljaarToevoegen"><i class="fa fa-edit"></i></a>'+
+                            '<a id='+ schooljaarDataList[index].schooljaar_id +' onclick="openSchooljaar(this.id)" class="btn btn-default" data-toggle="modal" data-target="#schooljaarToevoegen"><i class="fa fa-folder-open"></i></a>' +
+                            '</div>'+
+                            '</td>'+
                             '</tr>'
                         ;
 

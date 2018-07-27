@@ -17,7 +17,6 @@ public class Pakketten implements Serializable{
 
     private long pakket_id;
     private String pakketnaam;
-
     private List<Studenten> student = new ArrayList<Studenten>();
 
     @Id

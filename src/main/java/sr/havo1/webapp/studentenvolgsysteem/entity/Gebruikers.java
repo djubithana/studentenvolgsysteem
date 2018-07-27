@@ -74,7 +74,7 @@ public class Gebruikers implements Serializable{
         this.wachtwoord = wachtwoord;
     }
 
-    @Column(name = "registratiedatum", nullable = false)
+    @Column(name = "registratiedatum")
     public Timestamp getRegistratiedatum() {
         return registratiedatum;
     }
@@ -83,7 +83,7 @@ public class Gebruikers implements Serializable{
         this.registratiedatum = registratiedatum;
     }
 
-    @Column(name = "laatst_ingelogd_op", nullable = false)
+    @Column(name = "laatst_ingelogd_op")
     public Timestamp getLaatst_ingelogd_op() {
         return laatst_ingelogd_op;
     }

@@ -197,7 +197,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form action="">
+                    <form action="" id="student_bewerken_form">
                         <h2 class="formulier-titels">Persoonlijke Gegevens</h2>
                         <div class="row">
                             <div class="col">
@@ -240,7 +240,7 @@
                             <div class="col">
                                 <label>District</label>
                                 <select class="form-control" id="district_id_bew">
-                                    <option disabled>Geen</option>
+                                    <option id="current_district" value="" selected="selected"></option>
                                     <option value="10">Wanica </option>
                                     <option value="9">Saramacca </option>
                                     <option value="8">Paramaribo </option>
@@ -319,7 +319,7 @@
                             <div class="col">
                                 <label>District</label>
                                 <select type="text" class="form-control" id="verzorger_district_id_bew">
-                                    <option disabled>Geen</option>
+                                    <option id="current_verzorger_district" value=""></option>
                                     <option value="10">Wanica </option>
                                     <option value="9">Saramacca </option>
                                     <option value="8">Paramaribo </option>
@@ -403,13 +403,12 @@
                         if(studentenDataList[index].status === 1){
                             status = "Actief";
                         }else{ status = "Inactief";}
-                        districtOphalen(studentenDataList[index].district_id);
                         studentenLijst +=
                             ' <tr>' +
                             ' <td>'+ studentenDataList[index].voornaam +' </td> ' +
                             ' <td>'+ studentenDataList[index].achternaam + '</td> ' +
                             ' <td>'+ studentenDataList[index].geslacht + '</td> ' +
-                            ' <td><span id="district_resultaat"></span></td> ' +
+                            ' <td>'+ studentenDataList[index].district_id.district_naam + '</td> ' +
                             ' <td>'+ studentenDataList[index].adres + '</td> ' +
                             ' <td>'+ studentenDataList[index].telefoon + '</td> ' +
                             ' <td>'+ status + '</td> ' +
@@ -594,7 +593,8 @@
                 document.getElementById("achternaam_bew").value = studentGevonden.achternaam;
                 document.getElementById("geboortedatum_bew").value = dagFormaat ;
                 document.getElementById("geboorteplaats_bew").value = studentGevonden.geboorteplaats;
-                document.getElementById("district_id_bew").value = studentGevonden.district_id;
+                document.getElementById("current_district").value = studentGevonden.district_id.district_id;
+                document.getElementById("current_district").textContent = studentGevonden.district_id.district_naam;
                 document.getElementById("adres_bew").value = studentGevonden.adres;
                 document.getElementById("telefoon_bew").value = studentGevonden.telefoon;
                 document.getElementById("medische_klachten_bew").value = studentGevonden.medische_klachten;
@@ -602,7 +602,8 @@
                 document.getElementById("richting_mulo_bew").value = studentGevonden.richting_mulo;
                 document.getElementById("naam_verzorger_bew").value = studentGevonden.naam_verzorger;
                 document.getElementById("verzorger_beroep_bew").value = studentGevonden.verzorger_beroep;
-                document.getElementById("verzorger_district_id_bew").value = studentGevonden.verzorger_district_id;
+                document.getElementById("current_verzorger_district").value = studentGevonden.verzorger_district_id.district_id;
+                document.getElementById("current_verzorger_district").textContent = studentGevonden.verzorger_district_id.district_naam;
                 document.getElementById("verzorger_adres_bew").value = studentGevonden.verzorger_adres;
                 document.getElementById("verzorger_telefoon_bew").value = studentGevonden.verzorger_telefoon;
                 document.getElementById("verzorger_werkadres_bew").value = studentGevonden.verzorger_werkadres;
@@ -655,7 +656,6 @@
         let student_id = document.getElementById("student_id").value;
         let voornaam = document.getElementById("voornaam_bew").value;
         let achternaam = document.getElementById("achternaam_bew").value;
-
         let geboorteplaats = document.getElementById("geboorteplaats_bew").value;
         let district_id = document.getElementById("district_id_bew").value;
         let adres = document.getElementById("adres_bew").value;
@@ -681,7 +681,7 @@
             "achternaam": achternaam,
             "geboortedatum": dagFormaat,
             "geboorteplaats": geboorteplaats,
-            "district_id": district_id,
+            "district_id": {"district_id": district_id, "district_naam": document.getElementById("district_id_bew").text},
             "adres": adres,
             "telefoon": telefoon,
             "medische_klachten": medische_klachten,
@@ -690,7 +690,7 @@
             "naam_verzorger": naam_verzorger,
             "verzorger_beroep": verzorger_beroep,
             "verzorger_adres": verzorger_adres,
-            "verzorger_district_id": verzorger_district_id,
+            "verzorger_district_id": {"district_id": verzorger_district_id, "district_naam": document.getElementById("verzorger_district_id_bew").text},
             "verzorger_telefoon": verzorger_telefoon,
             "verzorger_werkadres": verzorger_werkadres,
             "type_verzorger": type_verzorger,
@@ -705,8 +705,9 @@
         xmlhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/studenten/updateStudent", true);
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState>3 && xmlhttp.status==200) {
-                studentenOphalen();
                 clearInputFields();
+                document.getElementById("student_bewerken_form").reset();
+                window.onload = studentenOphalen();
                 $('#studentBewerken').modal('hide');
                 $('.modal-backdrop').remove();
                 document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Aanpassingen waren succesvol</div>';
@@ -715,12 +716,49 @@
         };
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.send(json);
+
     }
     function clearInputFields() {
-        document.getElementById("voornaam").value = "";
-        document.getElementById("achternaam").value = "";
-        document.getElementById("telefoon").value = "";
-        document.getElementById("geslacht").value = "";
+        document.getElementById("voornaam_bew").value ="";
+        document.getElementById("achternaam_bew").value ="";
+       document.getElementById("geboorteplaats_bew").value ="";
+       document.getElementById("district_id_bew").value ="";
+        document.getElementById("adres_bew").value ="";
+       document.getElementById("telefoon_bew").value ="";
+        document.getElementById("medische_klachten_bew").value ="";
+        document.getElementById("naam_muloschool_bew").value ="";
+        document.getElementById("richting_mulo_bew").value ="";
+         document.getElementById("naam_verzorger_bew").value ="";
+        document.getElementById("verzorger_beroep_bew").value ="";
+        document.getElementById("verzorger_district_id_bew").value ="";
+        document.getElementById("verzorger_adres_bew").value ="";
+        document.getElementById("verzorger_telefoon_bew").value ="";
+        document.getElementById("verzorger_werkadres_bew").value ="";
+        document.getElementById("verzorger_werktelefoon_bew").value ="";
+        document.getElementById("type_verzorger_bew").value ="";
+        document.getElementById("pakket_id_bew").value ="";
+        document.getElementById("geslacht_bew").value ="";
+        document.getElementById("status_bew").value ="";
+        document.getElementById("voornaam").value ="";
+        document.getElementById("achternaam").value ="";
+        document.getElementById("geboorteplaats").value ="";
+        document.getElementById("district_id").value ="";
+        document.getElementById("adres").value ="";
+        document.getElementById("telefoon").value ="";
+        document.getElementById("medische_klachten").value ="";
+        document.getElementById("naam_muloschool").value ="";
+        document.getElementById("richting_mulo").value ="";
+        document.getElementById("naam_verzorger").value ="";
+        document.getElementById("verzorger_beroep").value ="";
+        document.getElementById("verzorger_district_id").value ="";
+        document.getElementById("verzorger_adres").value ="";
+        document.getElementById("verzorger_telefoon").value ="";
+        document.getElementById("verzorger_werkadres").value ="";
+        document.getElementById("verzorger_werktelefoon").value ="";
+        document.getElementById("type_verzorger").value ="";
+        document.getElementById("pakket_id").value ="";
+        document.getElementById("geslacht").value ="";
+        document.getElementById("status").value ="";
     }
 
 </script>

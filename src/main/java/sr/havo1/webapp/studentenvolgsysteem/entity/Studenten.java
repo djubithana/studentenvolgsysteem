@@ -23,7 +23,7 @@ public class Studenten implements Serializable {
     private String geslacht;
     private int status;
     private String geboorteplaats;
-    private int district_id;
+    private Districten district_id;
     private String adres;
     private int telefoon;
     private String medische_klachten;
@@ -31,7 +31,7 @@ public class Studenten implements Serializable {
     private String richting_mulo;
     private String naam_verzorger;
     private String verzorger_beroep;
-    private int verzorger_district_id;
+    private Districten verzorger_district_id;
     private String verzorger_adres;
     private int verzorger_telefoon;
     private String verzorger_werkadres;
@@ -96,12 +96,13 @@ public class Studenten implements Serializable {
         this.geboorteplaats = geboorteplaats;
     }
 
-    @Column(name = "district_id", nullable = false)
-    public int getDistrict_id() {
+    @ManyToOne
+    @JoinColumn(name = "district_id")
+    public Districten getDistrict_id() {
         return district_id;
     }
 
-    public void setDistrict_id(int district) {
+    public void setDistrict_id(Districten district) {
         this.district_id = district;
     }
 
@@ -168,12 +169,13 @@ public class Studenten implements Serializable {
         this.verzorger_beroep = verzorger_beroep;
     }
 
-    @Column(name = "verzorger_district_id", nullable = false)
-    public int getVerzorger_district_id() {
+    @ManyToOne
+    @JoinColumn(name = "verzorger_district_id")
+    public Districten getVerzorger_district_id() {
         return verzorger_district_id;
     }
 
-    public void setVerzorger_district_id(int verzorger_district) {
+    public void setVerzorger_district_id(Districten verzorger_district) {
         this.verzorger_district_id = verzorger_district;
     }
 

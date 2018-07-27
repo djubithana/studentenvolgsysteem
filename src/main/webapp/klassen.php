@@ -22,8 +22,9 @@
                                     <thead>
                                         <tr>
                                             <th scope="col">Klasnaam</th>
+                                            <th scope="col">Klassenvoogd</th>
+                                            <th scope="col">Aantal Studenten</th>
                                             <th scope="col">Schooljaar</th>
-                                            <!--<th scope="col">Aantal studenten</th>-->
                                             <th scope="col"></th>
                                         </tr>
                                     </thead>
@@ -225,13 +226,17 @@
                     klassenList +=
 
                         ' <tr> ' +
-                        '<th scope="row">' + klassenDataList[index].klasnaam + "</th>" +
+                        '<td scope="row">' + klassenDataList[index].klasnaam + "</td>" +
+                        '<td scope="row">' + klassenDataList[index].klasnaam + "</td>" +
+                        '<td scope="row">' + klassenDataList[index].klasnaam + "</td>" +
                         '<td>' + klassenDataList[index].schooljaar_id.schooljaar.toString() + "</td>" +
-                        /*'<td>' + klassenDataList[index].keys(klasStudent).length + "</td>" +*/
-                        '<td><button id= ' + klassenDataList[index].klas_id + ' onclick="editKlas(this.id)" ' +
-                        'class="btn_tabel" data-toggle="modal" data-target="#klasToevoegen"><i class="fas fa-edit fa-1x"></i></button></td>' +
-                        '<td><button id= ' + klassenDataList[index].klas_id + ' onclick="removeKlas(this.id)" ' +
-                        'class="btn_tabel"><i class="far fa-trash-alt"></i></button></td>'  +
+                        '<td>' +
+                        '<div class="btn-group btn-group-xs">'+
+                        '<a href="klas" id='+ klassenDataList[index].klas_id +'  class="btn btn-default" ><i class="fa fa-folder-open"></i></a>' +
+                        '<a id='+ klassenDataList[index].klas_id +' onclick="editKlas(this.id)" class="btn btn-default" data-toggle="modal" data-target="#klasToevoegen"><i class="fa fa-edit"></i></a>'+
+                        '<a id='+ klassenDataList[index].klas_id +' onclick="removeKlas(this.id)" class="btn btn-default" ><i class="fa fa-trash-alt"></i></a>' +
+                        '</div>'+
+                        '</td>'+
                         '</tr>'
                     ;
 
