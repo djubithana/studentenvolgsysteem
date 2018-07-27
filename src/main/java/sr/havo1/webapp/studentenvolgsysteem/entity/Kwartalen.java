@@ -40,7 +40,7 @@ public class Kwartalen implements Serializable{
         this.kwartaalnaam = kwartaalnaam;
     }
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "kwartaal_id", fetch = FetchType.LAZY)
     public List<Repetities> getRepetitie() {
         return repetitie;
