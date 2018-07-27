@@ -6,8 +6,10 @@
 			<section class="jumbotron text-center header-jumbo">
 				<div class="container">
 					<h4 class="jumbotron-heading">Klassen Overzicht</h4>
-                    <button type="button" class="btn_dark_bg" data-toggle="modal" data-target="#klasToevoegen">Toevoegen</button>
-				</div>
+                    <button type="button" class="btn_dark_bg" data-toggle="modal" data-target="#klasToevoegen">Klas toevoegen</button>
+                    <button type="button" class="btn_dark_bg" data-toggle="modal" data-target="#studentAanKlasToevoegen">Voeg student toe aan klas</button>
+
+                </div>
 			</section>
 			<div class="content">
 				<div class="row">
@@ -44,7 +46,7 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add new class</h4>
+                <h4 class="modal-title">Nieuwe klas toevoegen</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
@@ -59,7 +61,7 @@
                     <div class="form-group">
                         <div class="offset-md-2 col-md-8">
 
-                            <input id="klasnaam" class="form-control" type="text" placeholder="Class">
+                            <input id="klasnaam" class="form-control" type="text" placeholder="Klasnaam">
 
                         </div>
                     </div>
@@ -67,7 +69,7 @@
                     <div class="form-group">
                         <div class="offset-md-2 col-md-8">
                             <select id = "schooljaarList" class="form-control">
-                                <option value="" disabled>Select year</option>
+                                <option value="" disabled>Schooljaar</option>
                             </select>
                         </div>
                     </div>
@@ -82,9 +84,122 @@
     </div>
 </div>
 
+    <div id="studentAanKlasToevoegen" tabindex="-1" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Student toevoegen aan klas</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="/action_page.php">
+
+                        <div class="form-group">
+                            <div class="offset-md-2 col-md-8">
+                                <input type="hidden" class="form-control" id="klas_student_id">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="offset-md-2 col-md-8">
+                                <select id = "klassenList" class="form-control">
+                                    <option value="" disabled>Klassen</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="offset-md-2 col-md-8">
+                                <select id = "studentenList" class="form-control">
+                                    <option value="" disabled>Studenten</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="btn" type="button" onclick="addKlasToStudent()" class="btn btn-primary">Toevoegen</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 <script>
+    populateKlassen();
+    populateStudenten();
+/*
+    countStudenten();
+*/
     loadKlassen();
     loadSchooljaar();
+
+    function addKlasToStudent(){
+        let klas_student_id = document.getElementById("klas_student_id").value;
+        let klas_id = document.getElementById("klassenList").value;
+        let student_id = document.getElementById("studentenList").value;
+
+        let data = {
+            "klas_student_id": null,
+            "klas_id":{"klas_id": klas_id, "klasnaam": document.getElementById("klassenList").text},
+            "student_id":  {"student_id": student_id, "achternaam": document.getElementById("studentenList").text, "voornaam": document.getElementById("studentenList").text}
+        };
+        let json = JSON.stringify(data);
+
+        let url = "http://localhost:7070/studentenvolgsysteem/api/klassenStudenten/addKlasStudent";
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", url , true);
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState>3 && xhttp.status==200) { clearInputFields();}
+        };
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(json);
+    }
+
+    function populateKlassen() {
+        let BOOK_URL = "http://localhost:7070/studentenvolgsysteem/api/klassen/list";
+
+        let select = document.getElementById("klassenList");
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let klassenDataList = JSON.parse(this.responseText);
+                for (let index = 0; index < klassenDataList.length; index++) {
+                    let option = document.createElement("OPTION");
+                    option.text = klassenDataList[index].klasnaam;
+                    option.value = klassenDataList[index].klas_id;
+                    select.add(option);
+                }
+            }
+        };
+        xhttp.open("GET", BOOK_URL, true);
+        xhttp.send();
+    }
+
+    function populateStudenten() {
+        let BOOK_URL = "http://localhost:7070/studentenvolgsysteem/api/studenten/list";
+
+        let select = document.getElementById("studentenList");
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let studentenDataList = JSON.parse(this.responseText);
+                for (let index = 0; index < studentenDataList.length; index++) {
+                    let option = document.createElement("OPTION");
+                    option.text = studentenDataList[index].achternaam + ", " + studentenDataList[index].voornaam;
+                    option.value = studentenDataList[index].student_id;
+                    select.add(option);
+                }
+            }
+        };
+        xhttp.open("GET", BOOK_URL, true);
+        xhttp.send();
+    }
 
     function loadKlassen() {
         let URL = "http://localhost:7070/studentenvolgsysteem/api/klassen/list";
@@ -114,6 +229,34 @@
                 }
                 klassenList += '';
                 document.getElementById("klassenData").innerHTML = klassenList;
+            }
+        };
+        xhttp.open("GET", URL, true);
+        xhttp.send();
+    }
+
+    function countStudenten() {
+        let URL = "http://localhost:7070/studentenvolgsysteem/api/klassenStudenten/list";
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let aantalStudenten = JSON.parse(this.responseText);
+                let countAantalStudenten = '';
+
+                aantalStudenten.reverse();
+
+                for (let index = 0; index < aantalStudenten.length; index++) {
+                    countAantalStudenten +=
+
+                        ' <tr> ' +
+                        '<th scope="row">' + aantalStudenten[index].klas_student_id + "</th>" +
+                        '</tr>'
+                    ;
+
+                }
+                countAantalStudenten += '';
+                document.getElementById("count").innerHTML = countAantalStudenten.size;
             }
         };
         xhttp.open("GET", URL, true);
@@ -278,6 +421,9 @@
         document.getElementById("klas_id").value = "";
         document.getElementById("klasnaam").value = "";
         document.getElementById("schooljaarList").value = "";
+        document.getElementById("klas_student_id").value = "";
+        document.getElementById("klassenList").value = "";
+        document.getElementById("studentenList").value = "";
         document.getElementById("btn").innerHTML = "Toevoegen";
     }
 </script>

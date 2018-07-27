@@ -10,6 +10,7 @@
 			</div>
 		</section>
 		<div class="content">
+            <div id="error_message"></div>
 			<div class="row">
 		<table class="table table-condensed">
 		  <thead>
@@ -51,7 +52,7 @@
                     <div class="form-group">
                         <div class="offset-md-2 col-md-8">
                             <select class="form-control" id="schooljaar" placeholder="Schooljaar" name="schooljaar">
-                                    <option  value="" disabled>Year</option>
+                                    <option  value="" disabled>Schooljaar</option>
                                     <?php
                                     $y=(int)date('Y');
                                     ?>
@@ -71,8 +72,8 @@
 
                             <select type="text" class="form-control" id="status">
                                 <option value="" disabled>Status</option>
-                                <option value="false">Inactive</option>
-                                <option value="true">Active</option>
+                                <option value="false">Inactief</option>
+                                <option value="true">Actief</option>
                             </select>
 
                         </div>
@@ -103,22 +104,35 @@
 
                 schooljaarDataList.reverse();
 
-                for (let index = 0; index < schooljaarDataList.length; index++) {
-                    schooljaarList +=
+                if (schooljaarDataList.length > 0) {
+                    for (let index = 0; index < schooljaarDataList.length; index++) {
 
-                        ' <tr> ' +
-                        '<th scope="row">' + schooljaarDataList[index].schooljaar + "</th>" +
-                        '<td>' + schooljaarDataList[index].status + "</td>" +
-                        '<td><button id= ' + schooljaarDataList[index].schooljaar_id + ' onclick="editSchooljaar(this.id)" ' +
-                        'class="btn_tabel" data-toggle="modal" data-target="#schooljaarToevoegen"><i class="fas fa-edit fa-1x"></i></button></td>' +
-                        '<td><button id= ' + schooljaarDataList[index].schooljaar_id + ' onclick="openSchooljaar(this.id)" ' +
-                        'class="btn_tabel"><i class="far fa-folder-open"></i></button></td>'  +
-                        '</tr>'
-                    ;
+                        let status = "";
+                        if (schooljaarDataList[index].status === true) {
+                            status = "Actief";
+                        } else {
+                            status = "Inactief";
+                        }
+                        schooljaarList +=
 
+                            ' <tr> ' +
+                            '<th scope="row">' + schooljaarDataList[index].schooljaar + "</th>" +
+                            '<td>' + status + '</td>' +
+                            '<td><button id= ' + schooljaarDataList[index].schooljaar_id + ' onclick="editSchooljaar(this.id)" ' +
+                            'class="btn_tabel" data-toggle="modal" data-target="#schooljaarToevoegen"><i class="fas fa-edit fa-1x"></i></button></td>' +
+                            '<td><button id= ' + schooljaarDataList[index].schooljaar_id + ' onclick="openSchooljaar(this.id)" ' +
+                            'class="btn_tabel"><i class="far fa-folder-open"></i></button></td>' +
+                            '</tr>'
+                        ;
+
+                    }
+                    schooljaarList += '';
+                    document.getElementById("schooljaarData").innerHTML = schooljaarList;
                 }
-                schooljaarList += '';
-                document.getElementById("schooljaarData").innerHTML = schooljaarList;
+                else{ document.getElementById("schooljaarData").innerHTML = "<tr><td style=\"text-align:center;padding: 30px;\" colspan=\"7\">Er zijn geen schooljaren geregistreerd</td></tr>";}
+            }
+            else{
+                document.getElementById("schooljaarData").innerHTML = "<tr><td style=\"text-align:center;padding: 30px;\" colspan=\"7\">Iets is misgegaan. Maak contact met de administrator</td></tr>";
             }
         };
         xhttp.open("GET", URL, true);
@@ -141,7 +155,15 @@
         let xhttp = new XMLHttpRequest();
         xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/schooljaar/addSchooljaar", true);
         xhttp.onreadystatechange = function() {
-            if (xhttp.readyState>3 && xhttp.status==200) { loadSchooljaar(); clearInputFields();}
+            if (xhttp.readyState>3 && xhttp.status==200) { loadSchooljaar(); clearInputFields();
+                $('#schooljaarToevoegen').modal('hide');
+                $('.modal-backdrop').remove();
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>U heeft succesvol een nieuwe schooljaar toegevoegd  </div>';
+            }
+            else{
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Toevoegen is mislukt</div>';
+            }
+
         };
         xhttp.setRequestHeader("Content-Type", "application/json");
         xhttp.send(json);
@@ -165,7 +187,13 @@
             if (xmlhttp.readyState>3 && xmlhttp.status==200) {
                 loadSchooljaar();
                 clearInputFields();
-                document.getElementById("btn").innerHTML = "Toevoegen";}
+                $('#schooljaarToevoegen').modal('hide');
+                $('.modal-backdrop').remove();
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Aanpassingen waren succesvol</div>';
+                document.getElementById("btn").innerHTML = "Toevoegen";
+            }
+            else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Iets is mis gegaan tijdens het aanpassen</div>';}
+
         };
         xmlhttp.setRequestHeader("Content-Type", "application/json");
         xmlhttp.send(json);

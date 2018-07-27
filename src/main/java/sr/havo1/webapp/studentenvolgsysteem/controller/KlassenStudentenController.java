@@ -5,6 +5,7 @@ import sr.havo1.webapp.studentenvolgsysteem.entity.KlassenStudenten;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 
 /**
  * Created by DENCIO on 7/18/2018.
@@ -14,6 +15,13 @@ import javax.ws.rs.core.MediaType;
 public class KlassenStudentenController {
 
     private KlassenStudentenDAO klassenStudentenDAO = new KlassenStudentenDAO();
+
+    @Path("/list")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<KlassenStudenten> findAll() {
+        return klassenStudentenDAO.loadAllKlassenStudenten();
+    }
 
     @Path("/addKlasStudent")
     @POST
