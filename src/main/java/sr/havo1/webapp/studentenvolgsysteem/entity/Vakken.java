@@ -44,7 +44,7 @@ public class Vakken implements Serializable{
         this.vaknaam = vaknaam;
     }
 
-    @Column(name = "afkorting", nullable = false)
+    @Column(name = "afkorting")
     public String getAfkorting() {
         return afkorting;
     }
