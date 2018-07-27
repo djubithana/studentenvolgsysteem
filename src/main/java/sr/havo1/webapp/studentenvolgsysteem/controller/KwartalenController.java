@@ -13,8 +13,6 @@ import java.util.List;
 @Path("/kwartaal")
 public class KwartalenController {
 
-
-
         private KwartalenDOA kwartalenDOA = new KwartalenDOA();
 
         @Path("/list")

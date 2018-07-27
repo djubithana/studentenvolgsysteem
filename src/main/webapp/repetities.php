@@ -6,7 +6,7 @@
                 <section class="jumbotron text-center header-jumbo">
                     <div class="container">
                         <h4 class="jumbotron-heading">Repetities Toevoegen</h4>
-                        <button class="btn_dark_bg" data-toggle="modal" data-target="#repetitieToevoegen">Toevoegen</button>
+                        <button class="btn_dark_bg" data-toggle="modal" onclick="kwartalenOPhalen()" data-target="#repetitieToevoegen">Toevoegen</button>
                     </div>
                 </section>
                 <div class="content">
@@ -72,13 +72,6 @@
             </div>
         </div>
 <script>
-    vakkenOPhalen();
-    docentenOPhalen();
-    repetitiesOphalen();
-    kwartalenOPhalen();
-    kwartalenLijstOPhalen();
-
-
 
     function kwartalenLijstOPhalen() {
         let URL = "http://localhost:7070/studentenvolgsysteem/api/kwartaal/list";
@@ -115,7 +108,6 @@
         xhttp.open("GET", URL, true);
         xhttp.send();
     }
-    window.onload = kwartalenOPhalen();
 
     function repetitiesOphalen() {
         let URL = "http://localhost:7070/studentenvolgsysteem/api/repetitie/list";
@@ -158,19 +150,18 @@
     function kwartalenOPhalen() {
 
         let URL = "http://localhost:7070/studentenvolgsysteem/api/kwartaal/list";
-
-        let select = document.getElementById("kwartaaldropdown");
+        let kwartalenLijst="";
 
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
-            if (this.onreadystatechange == 4 && this.status == 200) {
+            if (this.readyState == 4 && this.status == 200) {
                 let kwartaalDatalist = JSON.parse(this.responseText);
                 for (let index = 0; index < kwartaalDatalist.length; index++){
-                    let option = document.getElementById("OPTION");
-                    option.text = kwartaalDatalist[index].kwartaalnaam;
-                    option.value = kwartaalDatalist[index].kwartaal_id;
-                    select.add(option);
+                    kwartalenLijst +=
+                        ' <option value="'+ kwartaalDatalist[index].kwartaal_id +'">'+ kwartaalDatalist[index].kwartaalnaam +' </option> ';
                 }
+                kwartalenLijst += "";
+                document.getElementById("kwartaaldropdown").innerHTML = kwartalenLijst;
             }
         };
         xhttp.open("GET" , URL, true);

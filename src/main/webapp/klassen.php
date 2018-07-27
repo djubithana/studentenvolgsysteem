@@ -227,8 +227,8 @@
 
                         ' <tr> ' +
                         '<td scope="row">' + klassenDataList[index].klasnaam + "</td>" +
-                        '<td scope="row">' + klassenDataList[index].klasnaam + "</td>" +
-                        '<td scope="row">' + klassenDataList[index].klasnaam + "</td>" +
+                        '<td scope="row">Jane Doe</td>' +
+                        '<td scope="row" id="aantal_studenten">2</td>' +
                         '<td>' + klassenDataList[index].schooljaar_id.schooljaar.toString() + "</td>" +
                         '<td>' +
                         '<div class="btn-group btn-group-xs">'+
@@ -249,7 +249,7 @@
         xhttp.send();
     }
 
-    function countStudenten() {
+    function countStudenten(currentKlas) {
         let URL = "http://localhost:7070/studentenvolgsysteem/api/klassenStudenten/list";
 
         let xhttp = new XMLHttpRequest();
@@ -259,6 +259,12 @@
                 let countAantalStudenten = '';
 
                 aantalStudenten.reverse();
+                let count = 0;
+
+                while(aantalStudenten[index].klas_student_id.klas_id == currentKlas){
+
+                count++
+                }
 
                 for (let index = 0; index < aantalStudenten.length; index++) {
                     countAantalStudenten +=
