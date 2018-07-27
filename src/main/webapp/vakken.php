@@ -90,6 +90,12 @@
                     </div>
 
                     <div class="form-group">
+                                            <div class="offset-md-2 col-md-8">
+                                                <input type="text" class="form-control" id="naam" placeholder="Naam">
+                                            </div>
+                                        </div>
+
+                    <div class="form-group">
                         <div class="offset-md-2 col-md-8">
                             <input type="text" class="form-control" id="afkorting" placeholder="Afkorting">
                         </div>
@@ -158,145 +164,134 @@
         </div>
     </div>
     <script>
-        function vakOphalen(vak_id) {
 
-            let dataString = {
-                "vak_id": vak_id,
-            }
-            let json = JSON.stringify(dataString)
-
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (xhttp.readyState>3 && xhttp.status==200) {
-                    let vakGevonden = JSON.parse(this.responseText);
-                    document.getElementById("vak_id_form").value = vakGevonden.vak_id;
-                    document.getElementById("deze_vak_verw").value = vakGevonden.vak_id;
-                          }
-            };
-            xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/vakken/geVak", true);
-            xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.send(json);
-        }0
-
-        function vakVerwijderen(vak_id) {
-
-            let dataString = {
-                "vak_id": vak_id,
-            }
-            let json = JSON.stringify(dataString)
-
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (xhttp.readyState>3 && xhttp.status==200) {
-                    vakkenOphalen();
-                    clearInputFields();
-                    $('#vakVerwijderen').modal('hide');
-                    $('.modal-backdrop').remove();
-                    document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Succesvol een vak verwijderd</div>';
-                    }
-                else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Iets is mis gegaan tijdens het verwijderen</div>';}
-            };
-            xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/vakken/removedVak", true);
-            xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.send(json);
-        }
-        function vakkenBewerken() {
-            let vak_id = document.getElementById("vak_id_form").value;
-            let vaknaam = document.getElementById("vaknaam").value;
-            let afkorting = document.getElementById("afkorting").value;
-
-            let dataString = {
-                "vak_id":vak_id,
-                "vaknaam": vaknaam,
-                "vaknaam" : vaknaam,
-            }
+    function addvak(){
+        let vak_id = document.getElementById("vak_id").value;
+        let vak = document.getElementById("vak").value;
+        let afkorting = document.getElementById("afkorting").value;
 
 
+        let dataString = {
+            "vak_id": null,
+            "vak": vak,
+            "afkorting": afkorting
+        };
+        let json = JSON.stringify(dataString);
 
-            let json = JSON.stringify(dataString)
-
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/vakken/updatevak", true);
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState>3 && xmlhttp.status==200) {
-                    vakkenOphalen();
-                    clearInputFields();
-                    $('#vakkenBewerken').modal('hide');
-                    $('.modal-backdrop').remove();
-                    document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Aanpassingen waren succesvol</div>';
-                    }
-                    else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Iets is mis gegaan tijdens het aanpassen</div>';}
-            };
-            xmlhttp.setRequestHeader("Content-Type", "application/json");
-            xmlhttp.send(json);
-        }
-
-        function docentenOphalen() {
-            let OPHAAL_URL = "http://localhost:7070/studentenvolgsysteem/api/vakken/list";
-
-            let xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                    let vakkenDataList = JSON.parse(this.responseText);
-                    let vakkenLijst = '';
-                    vakkenDataList.reverse();
-
-                    for (let index = 0; index < vakkenDataList.length; index++) {
-                        vakkenLijst +=
-                    ' <tr>' +
-                            ' <td>'+ vakkenDataList[index].vaknaam +' </td> ' +
-                            ' <td>'+ vakkenDataList[index].afkorting+ '</td> ' +
-                            ' <td>active</td> ' +
-                            ' <td> '+
-                            '<div class="btn-group btn-group-xs">'+
-                                '<a onclick="vakkenOphalen('+ vakkenDataList[index].vakken_id +')" data-toggle="modal" data-target="#vakkenBewerken" title="Edit" class="btn btn-default"><i class="fa fa-edit"></i></a>'+
-                                '<a onclick="vakkenOphalen('+ vakkenDataList[index].vakken_id +')" data-toggle="modal" data-target="#vakkenVerwijderen" title="delete" class="btn btn-default"><i class="fa fa-trash-alt"></i></a>'+
-                            '</div>'+
-                            '</td>'+
-                    ' </tr> ';
-                    }
-                    vakkenLijst += "";
-                    document.getElementById("vakGegevens").innerHTML = vakkenLijst;
-                }
-                else{
-                    document.getElementById("vakGegevens").innerHTML = "<tr><td style=\"text-align:center;padding: 30px;\" colspan=\"7\">Er zijn momenteel geen vakken geregistreerd</td></tr>";
-                }
-            };
-            xhttp.open("GET", OPHAAL_URL, true);
-            xhttp.send();
-        }
-        window.onload = vakkenOphalen();
-        function vakToevoegen() {
-
-            let vaknaam = document.getElementById("vaknaam").value;
-            let afkorting = document.getElementById("afkorting").value;
-
-            let dataString = {
-                "vaknaam": vaknaam,
-                "afkorting": afkorting,
-            }
-            let json = JSON.stringify(dataString)
-
-            let xhttp = new XMLHttpRequest();
-            xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/vakken/addVak", true);
-            xhttp.onreadystatechange = function() {
-                if (xhttp.readyState>3 && xhttp.status==200) {
-                    vakkenOphalen(); clearInputFields();
-                    $('#vakkenToevoegen').modal('hide');
-                    $('.modal-backdrop').remove();
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/vakken/addvak", true);
+        xhttp.onreadystatechange = function() {
+            if (xhttp.readyState>3 && xhttp.status==200) { loadvak(); clearInputFields();
+                $('#vakToevoegen').modal('hide');
+                $('.modal-backdrop').remove();
                 document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>U heeft succesvol een nieuwe vak toegevoegd  </div>';
-}
-                else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Toevoegen is mislukt</div>';}
-            };
-            xhttp.setRequestHeader("Content-Type", "application/json");
-            xhttp.send(json);
+            }
+            else{
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Toevoegen is mislukt</div>';
+            }
 
-        }
-        function clearInputFields() {
-            document.getElementById("vaknaam").value = "";
-            document.getElementById("afkorting").value = "";
+        };
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(json);
+    }
 
+    function updatevak() {
+        let vak_id = document.getElementById("vak_id").value;
+        let vak = document.getElementById("vak").value;
+        let afkorting = document.getElementById("afkorting").value;
+
+        let dataString = {
+            "vak_id": vak_id,
+            "vak": vak,
+            "afkorting": afkorting
+        };
+        let json = JSON.stringify(dataString);
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/vakken/updatevak", true);
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState>3 && xmlhttp.status==200) {
+                loadvakken();
+                clearInputFields();
+                $('#vakToevoegen').modal('hide');
+                $('.modal-backdrop').remove();
+                document.getElementById("error_message").innerHTML = '<div class="alert alert-success alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Aanpassingen waren succesvol</div>';
+                document.getElementById("btn").innerHTML = "Toevoegen";
+            }
+            else{document.getElementById("error_message").innerHTML = '<div class="alert alert-danger alert-dismissible"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>Iets is mis gegaan tijdens het aanpassen</div>';}
+
+        };
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(json);
+    }
+
+    function getvak(vak_id) {
+
+        let vak = document.getElementById("vak").value;
+        let afkorting = document.getElementById("afkorting").value;
+
+        let dataString = {
+            "vak_id": vak_id,
+            "vak": vak,
+            "afkorting": afkorting
+        };
+        let json = JSON.stringify(dataString);
+
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (xhttp.readyState>3 && xhttp.status==200) {
+                let foundVak = JSON.parse(this.responseText);
+
+                document.getElementById("vak_id").value = foundVak.vak_id;
+                document.getElementById("vak").value = foundVak.vak;
+                document.getElementById("status").value = foundStatus.status;
+
+                document.getElementById("btn").innerHTML = "Wijzigen";
+            }
+        };
+        xhttp.open("POST", "http://localhost:7070/studentenvolgsysteem/api/vak/getVak", true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.send(json);
+    }
+
+    function editVak(vak_id) {
+        getVak(vak_id);
+    }
+
+    function saveVak() {
+        if(validateForm())
+        {
+            if(document.getElementById("btn").innerHTML == 'Toevoegen') {
+                addVak();
+            }else{
+                updateVak();
+            }
         }
-    </script>
+    }
+
+    function validateForm() {
+        let pass = true;
+        let vak_id = document.getElementById("vak_id").value;
+        let vak = document.getElementById("vak").value;
+        let afkorting = document.getElementById("afkorting").value;
+
+        if (vak == "")
+        {
+            alert("Please fill in all fields.");
+            pass = false;
+        }
+
+        return pass;
+    }
+
+    function clearInputFields() {
+
+        document.getElementById("vak_id").value = "";
+        document.getElementById("vak").value = "";
+        document.getElementById("afkorting").value = "";
+        document.getElementById("btn").innerHTML = "Toevoegen";
+    }
+
+</script>
 
 <?php  include'inc/bottom.php';?>
