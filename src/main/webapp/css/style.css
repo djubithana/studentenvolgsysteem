@@ -84,7 +84,24 @@ margin-bottom:20px;}
         -webkit-border-radius: 2px;
         border-radius: 2px;
     }
-
+    .nav-pills>li+li{
+        margin-left:0px!important;
+    }
+.cijfer_kwartalen_menu li{
+    text-align: center;
+}
+.cijfer_kwartalen_menu li a{
+    color: #ffffff;
+    padding: 7px;
+    border-radius: 7px;
+    background: #381c62;
+}
+.cijfer_kwartalen_menu li a:hover{
+    background-color: #592980!important;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    background-color: #592980!important;
+}
     .widget-header,
     .widget-content {
       display: block;
